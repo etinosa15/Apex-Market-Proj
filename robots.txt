@@ -1,0 +1,22 @@
+# APEX MARKET - https://apexmarket.ng
+#
+# The catalogue, the company pages and the policies are all public copy that
+# we want found, so the default is Allow rather than a list of exceptions.
+#
+# The two account pages are excluded because an indexed login form is a dead
+# end in a search result: it ranks for the brand name, offers a stranger a
+# form they cannot use, and buries the shop page that should have won the
+# query. They are not secret, and nothing here is a security boundary - a
+# disallow is a request to crawlers, not an access control.
+#
+# 404.html is excluded for the same practical reason and carries its own
+# noindex, since a robots disallow alone would leave an already-indexed error
+# page in the results with no way to remove it.
+
+User-agent: *
+Allow: /
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /404.html
+
+Sitemap: https://apexmarket.ng/sitemap.xml

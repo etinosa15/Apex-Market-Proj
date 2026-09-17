@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Your Account | APEX MARKET</title>
+  <meta name="description" content="Create a free APEX MARKET account to track orders, save favourites and check out faster across Nigeria.">
+  <link rel="canonical" href="https://apexmarket.ng/register.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="APEX MARKET">
+  <meta property="og:locale" content="en_NG">
+  <meta property="og:url" content="https://apexmarket.ng/register.html">
+  <meta property="og:title" content="Create Your Account | APEX MARKET">
+  <meta property="og:description" content="Create a free APEX MARKET account to track orders, save favourites and check out faster across Nigeria.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=1200&h=630&q=80">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Premium wireless over-ear headphones, one of APEX MARKET's best-selling audio products">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Create Your Account | APEX MARKET">
+  <meta name="twitter:description" content="Create a free APEX MARKET account to track orders, save favourites and check out faster across Nigeria.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=1200&h=630&q=80">
+  <meta name="theme-color" content="#f5f1e9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#04101f" media="(prefers-color-scheme: dark)">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= Header / Navigation Start ================= -->
+  <header>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <nav class="navbar" aria-label="Primary navigation">
+      <div class="navbar-container">
+
+        <a href="index.html" class="navbar-brand" aria-label="APEX MARKET home">
+          <svg class="logo-mark" width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+            <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+            <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+          </svg>
+          <span class="navbar-brand-text"><span class="brand-word-apex">APEX</span><span class="brand-word-market">MARKET</span><small>Online Marketplace</small></span>
+        </a>
+
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-controls="navbar-menu" aria-label="Toggle navigation menu">
+        <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </label>
+
+        <!-- This is the page the nav's fourth link has always named. It used
+             to point at login.html, which greeted you with "Welcome Back" and
+             asked for a password you had never set. -->
+        <ul class="navbar-menu" id="navbar-menu" role="list">
+          <li><a href="index.html" class="navbar-link">Home</a></li>
+          <li><a href="about.html" class="navbar-link">About</a></li>
+          <li><a href="contact.html" class="navbar-link">Contact</a></li>
+          <li><a href="register.html" class="navbar-link navbar-link-cta" aria-current="page">Register Now</a></li>
+        </ul>
+
+        <!-- Light / dark switch. Same checkbox trick as the menu above and
+             equally scriptless: the page follows the operating system until
+             this is ticked, and ticking it takes the opposite appearance.
+             There is no storage behind it, so the choice lasts for the page. -->
+        <div class="theme-switch-wrap">
+          <input type="checkbox" id="theme-switch" class="theme-switch-input" aria-label="Use the opposite of my system light or dark appearance">
+          <label for="theme-switch" class="theme-switch" title="Light / dark appearance" aria-hidden="true"></label>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+  <!-- ================= Header / Navigation End ================= -->
+
+  <main id="main">
+
+    <!-- ================= Register Section Start ================= -->
+    <section class="auth-section">
+      <div class="auth-card">
+
+        <div class="auth-logo">
+          <svg class="logo-mark" width="46" height="46" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+            <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+            <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+          </svg>
+        </div>
+
+        <div class="auth-header">
+          <h1>Create Your Account</h1>
+          <p>It takes about a minute, and it is free. Track orders, save favourites and check out faster.</p>
+        </div>
+
+        <!-- Registration form: HTML only, no backend, illustrative only.
+             No novalidate, so the required and minlength attributes below are
+             enforced by the browser - the only feedback available in a project
+             with no script in it.
+
+             One honest gap: nothing here can compare the two password fields.
+             That check needs script, and this project has none, so the second
+             field enforces its own length and nothing more. It is kept because
+             typing the password twice still catches the typo you can see, and
+             because dropping it would be the stranger surprise. -->
+
+        <!-- Same hidden heading the login page carries, for the same reason:
+             h1 ran straight to the footer's h3s with no h2 between them, which
+             reads to a screen reader as a missing level. The h1 above already
+             names the task, so this one names the form instead of repeating
+             it. Hidden rather than drawn, because the card is self-evident to
+             anyone who can see it. -->
+        <h2 class="sr-only">Your account details</h2>
+
+        <form action="#" method="post">
+
+          <div class="form-group">
+            <label for="register-name" class="form-label">Full Name <span class="required">*</span></label>
+            <input type="text" id="register-name" name="name" class="form-input" placeholder="e.g. Ada Obi" autocomplete="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="register-email" class="form-label">Email Address <span class="required">*</span></label>
+            <input type="email" id="register-email" name="email" class="form-input" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password" class="form-label">Password <span class="required">*</span></label>
+            <input type="password" id="register-password" name="password" class="form-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password-confirm" class="form-label">Confirm Password <span class="required">*</span></label>
+            <input type="password" id="register-password-confirm" name="password-confirm" class="form-input" placeholder="Type it once more" autocomplete="new-password" minlength="8" required>
+          </div>
+
+          <!-- Same row the login page uses for "Remember me". The links sit
+               outside the label on purpose: a link inside a <label> toggles
+               the checkbox when you click it, which is not what "read the
+               terms" should do. -->
+          <div class="form-check-row">
+            <label class="form-checkbox" for="register-terms">
+              <input type="checkbox" id="register-terms" name="terms" required>
+              I accept the terms and the privacy policy
+            </label>
+            <a href="terms.html" class="form-forgot">Read the terms</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+
+        <p class="auth-footer-note">
+          Already have an account? <a href="login.html">Log in instead</a>.
+        </p>
+
+      </div>
+    </section>
+    <!-- ================= Register Section End ================= -->
+
+  </main>
+
+  <!-- ================= Footer Start ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <a href="index.html" class="footer-brand" aria-label="APEX MARKET home">
+            <svg class="logo-mark" width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+              <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+              <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+            </svg>
+            <span class="brand-word-apex">APEX</span><span class="brand-word-market">MARKET</span>
+          </a>
+          <p class="footer-desc">Nigeria's trusted online marketplace for quality electronics, fashion, home essentials and more, delivered nationwide.</p>
+          <!-- The three channels the Terms page already names - phone, email
+               and WhatsApp - each pointing at something that answers. What
+               stood here was four social accounts that do not exist, linked
+               to "#" on all seven pages. -->
+          <nav class="footer-social" aria-label="Ways to reach us">
+            <a href="https://wa.me/2348001234567" class="footer-social-link">WhatsApp</a>
+            <a href="mailto:hello@apexmarket.ng" class="footer-social-link">Email</a>
+            <a href="tel:+2348001234567" class="footer-social-link">Phone</a>
+          </nav>
+        </div>
+
+        <nav aria-label="Footer navigation">
+          <h3 class="footer-heading">Explore</h3>
+          <ul class="footer-links" role="list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="shop.html" class="footer-link">Shop</a></li>
+            <li><a href="contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Account navigation">
+          <h3 class="footer-heading">Account</h3>
+          <ul class="footer-links" role="list">
+            <li><a href="login.html" class="footer-link">Login</a></li>
+            <li><a href="register.html" class="footer-link" aria-current="page">Register Now</a></li>
+            <li><a href="contact.html" class="footer-link">Track Order</a></li>
+            <li><a href="contact.html" class="footer-link">Help &amp; Support</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <h3 class="footer-heading">Get in Touch</h3>
+          <address class="footer-contact-item">14 Marina Street, Lagos Island, Lagos, Nigeria</address>
+          <div class="footer-contact-item"><a href="tel:+2348001234567">+234 800 123 4567</a></div>
+          <div class="footer-contact-item"><a href="mailto:hello@apexmarket.ng">hello@apexmarket.ng</a></div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 APEX MARKET. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- ================= Footer End ================= -->
+
+</body>
+</html>

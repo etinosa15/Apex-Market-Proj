@@ -1,0 +1,29 @@
+# Nothing in this project is compiled, bundled or installed, so there is no
+# build output, lockfile or dependency folder to keep out. What is left is the
+# debris that the operating system, the sync client and editors leave lying
+# next to the source.
+
+# Windows and OneDrive
+Thumbs.db
+ehthumbs.db
+desktop.ini
+*.lnk
+$RECYCLE.BIN/
+
+# macOS, should the folder ever be opened from one
+.DS_Store
+._*
+
+# Editors and their scratch files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Machine-local Claude Code state: which tool permissions this particular
+# computer has granted. .claude/launch.json is deliberately NOT ignored - it
+# is how the preview server gets started, which is a fact about the project
+# rather than about one machine.
+.claude/settings.local.json
+.claude/settings.local.json.backup

@@ -1,0 +1,1868 @@
+/* ==========================================================================
+   APEX MARKET — MAIN STYLESHEET
+   ==========================================================================
+   A print-catalogue treatment of an online marketplace, now in two
+   appearances. Plain HTML and CSS: there is no JavaScript anywhere in this
+   project, including the navigation menu and the light/dark switch.
+
+   The house rules this file follows, and the reasoning behind each:
+
+   · Two appearances, one set of tokens. Every colour is written once, as
+     light-dark(light value, dark value), and read from :root. The page
+     follows the operating system by default; the switch in the navbar
+     flips it to the opposite using :has(), with no script and no storage,
+     which is why the choice lasts for the page rather than the visit.
+   · Colour carries meaning, not decoration. Blue is interactive — links,
+     eyebrows, focus, form states. Clay and gold mark money and figures.
+     Navy is structure. Nothing is coloured only to be colourful, which is
+     the difference between a palette and a rainbow.
+   · Flat colour. No gradients, no radial "glow" blooms, no glowing
+     shadows. Depth comes from hairline rules and from bands of background
+     colour, the way it does on a printed page.
+   · Square corners, with one deliberate exception: the navigation bar is a
+     floating translucent pill. It is the only full radius and the only
+     backdrop blur in the file, and it sits on the control surface rather
+     than in the content.
+   · Two typefaces, no monospace. EB Garamond carries headings and body;
+     Libre Franklin (a Franklin Gothic revival) carries labels, buttons and
+     figures. A coder's monospace on a shopping price is costume.
+   · Hover changes colour, never geometry. Nothing lifts, scales or floats.
+   · Never #ffffff, never #000000. Paper has a temperature, and so does a
+     dark room.
+
+   TABLE OF CONTENTS
+   1.  Design Tokens (palette, light/dark theme, type, layout)
+   2.  CSS Reset / Base Elements
+   3.  Accessibility Helpers (skip link, focus states, sr-only)
+   4.  Layout Utilities (container, section bands)
+   5.  Shared Typographic Devices (tracked labels, rules)
+   6.  Buttons
+   7.  Navbar (glass pill, CSS-only mobile menu, theme switch)
+   8.  Hero (home page)
+   9.  Section Headers
+   10. Product Grid (catalogue entries)
+   11. Reasons List ("Why APEX MARKET")
+   12. Numbered Process ("How it works")
+   13. Specification List (delivery / returns / support facts)
+   14. CTA Block
+   15. Footer
+   16. About Page Components
+   17. Contact Page Components
+   18. Login / Auth Page Components
+   19. Shop Page Components
+   20. Legal Pages (privacy, terms)
+   21. Responsive Media Queries
+   22. Reduced Motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   ========================================================================== */
+:root {
+
+  /* --- Raw palette -------------------------------------------------------
+     Two families. The blue family is the brand's own, carried over from
+     the earlier build of this site; the warm family is the paper and clay
+     this version introduced. Light uses warm ground with blue and clay
+     marks; dark uses the blue family's deepest navy as the ground, so the
+     two appearances are the same palette seen from opposite ends.
+
+     Only the two names below survive here. The other sixteen were declared
+     and then never read: every semantic token underneath wrote the same hex
+     out longhand instead of pointing at them, so editing --sky-700 changed
+     precisely nothing on screen. A palette that does not drive anything is
+     worse than no palette, because the next person to edit it believes it
+     does. The semantic tokens are the source of truth now.   --- */
+
+  --navy-900: #0a1b33;
+  --navy-950: #04101f;
+
+  /* --- Theme -------------------------------------------------------------
+     color-scheme: light dark tells the browser to follow the system for
+     form controls and scrollbars, and it is also what light-dark() reads
+     to decide which of its two values to return. Flipping that one
+     property (see the switch rules below) flips every token at once. --- */
+  color-scheme: light dark;
+
+  /* Grounds */
+  --surface:             light-dark(#f5f1e9, #04101f);  /* page                   */
+  --surface-alt:         light-dark(#eae3d4, #0a1b33);  /* banded section         */
+  --surface-raised:      light-dark(#fbf8f2, #0d2240);  /* cards, forms, panels   */
+  --surface-invert:      light-dark(#0a1b33, #12294a);  /* the dark band          */
+  --surface-invert-deep: light-dark(#04101f, #020a14);  /* footer                 */
+
+  /* Ink on the page grounds */
+  --ink:      light-dark(#0a1b33, #f4f9ff);   /* headings, strong text   */
+  --ink-soft: light-dark(#3d5573, #b9cce4);   /* body copy               */
+  --ink-mute: light-dark(#4d6785, #8aa3c2);   /* meta, captions, labels  */
+
+  /* Ink on the inverted grounds. These read on navy in either appearance,
+     so they are the same in both and are written without light-dark(). */
+  --on-invert:      #f4f9ff;
+  --on-invert-soft: #c6d7ec;
+
+  /* Rules */
+  --rule:        light-dark(#d8d0be, rgba(148, 183, 224, 0.22));
+  --rule-invert: rgba(244, 249, 255, 0.16);
+
+  /* Accents. Blue is the interactive colour; clay and gold are the
+     commercial ones — prices, figures, numerals. */
+  --accent:                 light-dark(#0f5fc0, #8fcaff);
+  --accent-strong:          light-dark(#0a4691, #cfe6ff);
+  --accent-on-invert:       #8fcaff;
+  --accent-on-invert-strong:#cfe6ff;
+  --warm:                   light-dark(#96461f, #ffb020);
+  --warm-on-invert:         #ffb020;
+
+  /* Filled controls */
+  --fill:      light-dark(#0a1b33, #2f9bff);
+  --fill-hover:light-dark(#12294a, #55b1ff);
+  --on-fill:   light-dark(#f5f1e9, #04101f);
+
+  /* Catalogue badge — clay with light type by day, gold with dark type by
+     night, because a gold chip needs dark type to stay readable. */
+  --badge-bg:  light-dark(#96461f, #ffb020);
+  --badge-ink: light-dark(#f9f6f0, #04101f);
+
+  /* Glass, used by the navbar pill only (the mobile panel below takes an
+     opaque --surface-raised and borrows nothing but this edge and shadow).
+     The page scrolls underneath the pill, so whatever is behind it at any
+     moment sets the real contrast of the nav text.
+
+     0.88 was already an improvement on the 0.62 this started at, but it
+     still let 12% of the backdrop through, and 12% of a white product
+     photo is enough to matter: the muted nav ink composited to 4.30:1 in
+     the dark appearance and 4.16:1 in the light one, both under the 4.5:1
+     that 12px text needs. 0.94 cuts the bleed to 6% and carries every
+     on-glass colour - muted ink, the brand descriptor, and the accent on
+     the current page's pill - clear of 4.5:1 against a pure white or
+     pure black backdrop, which is the worst case there is rather than a
+     likely one. The blur and the saturate both survive; they are simply
+     doing their work through a narrower opening. */
+  --glass:        light-dark(rgba(250, 247, 240, 0.94), rgba(13, 34, 60, 0.94));
+  --glass-edge:   light-dark(rgba(255, 252, 246, 0.80), rgba(143, 202, 255, 0.20));
+  --glass-sheen:  light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.08));
+  --glass-shadow: light-dark(rgba(10, 27, 51, 0.22), rgba(0, 0, 0, 0.55));
+  --nav-active:   light-dark(rgba(15, 95, 192, 0.12), rgba(143, 202, 255, 0.16));
+
+  /* Theme switch: the knob sits left in the light appearance and right in
+     the dark one. Its colour is a token like any other; its position is not
+     — light-dark() resolves only <color>, so the offset is set by the same
+     :has() rules that drive color-scheme (see below the switch styles). */
+  --switch-track: light-dark(rgba(10, 27, 51, 0.10), rgba(143, 202, 255, 0.16));
+  --switch-knob:  light-dark(#96461f, #dcecff);
+
+  /* Focus */
+  --focus-ring:        light-dark(#0f5fc0, #8fcaff);
+  --focus-ring-invert: #8fcaff;
+
+  /* --- Typography --------------------------------------------------------
+     EB Garamond does the reading; Libre Franklin does the labelling.
+     Nothing else. Weight, size and tracking carry the hierarchy that a
+     third or fourth family would otherwise be hired to carry.
+
+     Nothing in this file sits below 0.75rem / 12px. Twenty-four rules
+     used to, most of them at 0.70rem, and the ones that hurt were the
+     tracked uppercase labels: letter-spacing pulls the strokes apart at
+     exactly the size they can least afford it, and a 0.22em descriptor
+     at 11px is a row of initials rather than a word. The floor is a
+     floor, not a suggestion. Weight and tracking already carry the
+     hierarchy those missing pixels were being asked to carry, so the
+     whole cost of the change is a few pixels of label width.        --- */
+  --font-serif: 'EB Garamond', Garamond, Georgia, serif;
+  --font-sans:  'Libre Franklin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* --- Motion ------------------------------------------------------------
+     One duration, one easing, colour properties only.                 --- */
+  --transition: 0.15s ease;
+
+  /* --- Layout ------------------------------------------------------------*/
+  --container-width: 1200px;
+  --header-height: 90px;   /* 14px + 62px pill + 14px */
+}
+
+/* The manual override. Unchecked, the page follows the system; checked, it
+   takes the opposite appearance — which is the only behaviour a single
+   checkbox can offer, and the only one anybody actually wants from it.
+   Written against :root rather than body so the browser canvas, the
+   scrollbars and the form controls change with the rest. */
+:root:has(.theme-switch-input:checked) { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+  :root:has(.theme-switch-input:checked) { color-scheme: light; }
+}
+
+/* Browsers without light-dark() would otherwise get no colour at all, so
+   the light appearance is restored here as plain values. Anything this old
+   does not support :has() either, which is exactly right: it gets the
+   light page with no switch rather than a broken one. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root {
+    --surface: #f5f1e9;      --surface-alt: #eae3d4;
+    --surface-raised: #fbf8f2;
+    --surface-invert: #0a1b33; --surface-invert-deep: #04101f;
+    --ink: #0a1b33;          --ink-soft: #3d5573;      --ink-mute: #4d6785;
+    --rule: #d8d0be;
+    --accent: #0f5fc0;       --accent-strong: #0a4691;
+    --warm: #96461f;
+    --fill: #0a1b33;         --fill-hover: #12294a;    --on-fill: #f5f1e9;
+    --badge-bg: #96461f;     --badge-ink: #f9f6f0;
+    --glass: rgba(250, 247, 240, 0.94);
+    --glass-edge: rgba(255, 252, 246, 0.80);
+    --glass-sheen: rgba(255, 255, 255, 0.85);
+    --glass-shadow: rgba(10, 27, 51, 0.22);
+    --nav-active: rgba(15, 95, 192, 0.12);
+    --switch-track: rgba(10, 27, 51, 0.10);
+    --switch-knob: #96461f;
+    --focus-ring: #0f5fc0;
+  }
+}
+
+
+/* ==========================================================================
+   2. CSS RESET / BASE ELEMENTS
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 16px);
+  background-color: var(--surface);
+}
+
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol {
+  margin: 0;
+}
+
+/* Removing the bullets is a design decision; losing the list is not. Safari
+   with VoiceOver stops announcing "list, 4 items" once list-style is none,
+   so every <ul> carrying a class here also carries role="list" in the HTML
+   to put the semantics back. */
+ul[class], ol[class] { list-style: none; padding: 0; }
+
+img, picture, svg { display: block; max-width: 100%; }
+
+input, button, textarea, select { font: inherit; color: inherit; }
+
+button { cursor: pointer; }
+
+a { color: inherit; text-decoration: none; }
+
+/* <address> is the correct element for the office address in the footer and
+   on the contact page; the browser's default italic is not wanted there. */
+address { font-style: normal; }
+
+body {
+  font-family: var(--font-serif);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  color: var(--ink);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+h1 { font-size: clamp(2.5rem, 5.2vw, 3.9rem); }
+h2 { font-size: clamp(1.95rem, 3.4vw, 2.6rem); }
+h3 { font-size: 1.3rem; }
+
+p { color: var(--ink-soft); }
+
+/* Inline links inside running prose take the interactive blue and a real
+   underline, set off the baseline rather than hugging it. */
+.legal-content a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.legal-content a:hover { color: var(--accent-strong); }
+
+
+/* ==========================================================================
+   3. ACCESSIBILITY HELPERS
+   ========================================================================== */
+
+/* Visually hide content but keep it available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip-to-content link: hidden until keyboard-focused */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 1000;
+  background: var(--fill);
+  color: var(--on-fill);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  transition: top var(--transition);
+}
+.skip-link:focus { top: 16px; }
+
+/* One focus ring for the whole site. Square, like everything else. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+.chip:focus-visible,
+.nav-toggle-input:focus-visible + .nav-toggle-label,
+.theme-switch-input:focus-visible + .theme-switch {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+/* On navy grounds the page ring can be too dark; the sky blue is not. */
+.section-dark a:focus-visible,
+.cta-banner a:focus-visible,
+.footer a:focus-visible,
+.shop-hero a:focus-visible,
+.page-hero a:focus-visible,
+.contact-info-card a:focus-visible {
+  outline-color: var(--focus-ring-invert);
+}
+
+
+/* ==========================================================================
+   4. LAYOUT UTILITIES
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.section { padding-block: 88px; }
+.section-tight { padding-block: 64px; }
+
+/* The three grounds. Class names are unchanged from the previous build so
+   the markup did not have to be rewritten around them; what each one means
+   has changed. "White" is now the page ground, "light" the banded one, and
+   both of them follow the appearance the reader is in. */
+.section-white { background: var(--surface); }
+.section-light { background: var(--surface-alt); }
+.section-dark  { background: var(--surface-invert); }
+
+.section-dark h2,
+.section-dark h3 { color: var(--on-invert); }
+.section-dark p  { color: var(--on-invert-soft); }
+
+/* Consecutive paper sections would run together without a seam. */
+.section-white + .section-white { border-top: 1px solid var(--rule); }
+
+
+/* ==========================================================================
+   5. SHARED TYPOGRAPHIC DEVICES
+   Small tracked capitals in the sans face are the workhorse label of this
+   design: they mark eyebrows, categories, table terms and figure captions.
+   Every one of them is this same specimen at a different colour.
+   ========================================================================== */
+.hero-eyebrow,
+.section-eyebrow,
+.page-hero-eyebrow,
+.product-category,
+.product-badge,
+.stat-label,
+.spec-term,
+.mv-label,
+.contact-info-label,
+.map-fallback-label,
+.map-caption,
+.footer-heading,
+.btn,
+.chip,
+.legal-meta {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Figures — prices, statistics, phone numbers — are set in the sans face
+   with tabular figures so columns of them line up. */
+.product-price,
+.stat-number,
+.process-number,
+.hero-spotlight-tag span {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+
+/* ==========================================================================
+   6. BUTTONS
+   Square, bordered, tracked capitals. The primary is a filled block of
+   ink by day and of brand blue by night; the secondary is the same block
+   drawn as an outline.
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  font-size: 0.75rem;
+  border: 1px solid transparent;
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--fill);
+  color: var(--on-fill);
+  border-color: var(--fill);
+}
+.btn-primary:hover { background: var(--fill-hover); border-color: var(--fill-hover); }
+
+.btn-secondary,
+.btn-outline-dark {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-secondary:hover,
+.btn-outline-dark:hover { background: var(--ink); color: var(--surface); }
+
+.btn-block { width: 100%; }
+
+/* Inside the navy CTA block the light/dark relationship inverts, and the
+   filled button takes the sky blue rather than the page fill so it stays
+   the brightest thing in the block in either appearance. */
+.cta-banner .btn-primary {
+  background: var(--accent-on-invert);
+  color: var(--navy-950);
+  border-color: var(--accent-on-invert);
+}
+.cta-banner .btn-primary:hover {
+  background: var(--accent-on-invert-strong);
+  border-color: var(--accent-on-invert-strong);
+}
+
+.cta-banner .btn-secondary {
+  color: var(--on-invert);
+  border-color: var(--rule-invert);
+}
+.cta-banner .btn-secondary:hover {
+  background: var(--on-invert);
+  color: var(--navy-900);
+  border-color: var(--on-invert);
+}
+
+
+/* ==========================================================================
+   7. NAVBAR
+   A floating pill that the page scrolls underneath. The header keeps its
+   height in the flow, so nothing hides behind the bar, and it passes
+   pointer events through everywhere except the pill itself.
+   ========================================================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  padding: 14px 24px;
+  /* The header keeps its full width so the pill can centre inside it, but
+     only the pill and the skip link should catch the pointer; everywhere
+     else the page underneath stays clickable. */
+  pointer-events: none;
+}
+.skip-link,
+.navbar-container { pointer-events: auto; }
+
+.navbar-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  height: 62px;
+  /* The left padding is 24px because .container's padding-inline is 24px, and
+     that is the whole reason for the number.
+
+     Once the viewport is at least 1248px the pill's left edge and .container's
+     left edge are the same x: the pill is 1200px centred inside a header whose
+     content box is vw-48, which puts it at 24 + (vw-48-1200)/2, and that
+     reduces to (vw-1200)/2, which is exactly where the 1200px container
+     starts. Two boxes with the same left edge need the same inside padding for
+     their contents to line up, so the logo now sits on the same vertical as
+     every headline and paragraph below it. At 18px it sat 6px to their left.
+
+     Between 721px and 1247px the two edges genuinely diverge - the pill is
+     inset 24px by the header's padding while the container spans the full
+     width and holds its 24px inside - so in that band the logo is 24px right
+     of the text. Padding alone cannot close both cases, and the alternatives
+     both cost more than the misalignment: dropping the header's inline
+     padding lets the pill run to the screen edge, and shrinking the pill to
+     1152px fixes the edges only by putting the logo hard against its border.
+     The 1200px layout is drawn for wide screens, so the wide case is the one
+     that gets to be exact. */
+  padding: 0 10px 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-edge);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 var(--glass-sheen),
+    0 14px 32px -16px var(--glass-shadow);
+}
+
+/* Brand / logo -------------------------------------------------------- */
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.35rem;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.logo-mark { flex-shrink: 0; }
+/* The mark is a geometric letter "A" built from three plain shapes — two
+   legs and a crossbar — so the icon and the brand name are the same
+   letterform. The crossbar is cut in the ground colour rather than
+   painted, which is why it changes with the surface it sits on. */
+.logo-mark-a-left  { fill: var(--accent); }
+.logo-mark-a-right { fill: var(--warm); }
+.logo-mark-a-bar   { fill: var(--surface); }
+
+.navbar-brand-text { display: inline-block; line-height: 1.05; }
+.navbar-brand-text small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 6px;
+}
+/* "APEX" carries the weight of the wordmark; "MARKET" sits beside it as a
+   lighter, letter-spaced descriptor rather than matching it stroke for stroke. */
+.brand-word-apex { font-weight: 600; }
+.brand-word-market {
+  font-weight: 400;
+  font-size: 0.88em;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-left: 0.32em;
+}
+
+/* Link list ------------------------------------------------------------ */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.navbar-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  transition: color var(--transition), background-color var(--transition);
+}
+.navbar-link:hover,
+.navbar-link:focus-visible { color: var(--ink); }
+
+/* The current page is marked by tinting its own pill, not by animating a
+   rule in from one side. */
+.navbar-link[aria-current="page"] {
+  color: var(--accent);
+  background: var(--nav-active);
+}
+
+.navbar-link-cta {
+  margin-left: 8px;
+  padding: 11px 22px;
+  background: var(--fill);
+  color: var(--on-fill);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+.navbar-link-cta:hover,
+.navbar-link-cta[aria-current="page"] {
+  background: var(--fill-hover);
+  color: var(--on-fill);
+}
+
+/* Theme switch (checkbox hack — no JavaScript).
+   The input carries the accessible name and stays in the tab order; the
+   label is the visible track, and the knob is its ::after. The knob's
+   colour comes from a token; its position comes from the :has() rules
+   below, so the control reports the current appearance without a line of
+   script. ---------------------------------------------------------------- */
+.theme-switch-wrap { display: inline-flex; align-items: center; flex-shrink: 0; }
+
+.theme-switch-input {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.theme-switch {
+  --knob-size: 20px;
+  --knob-inset: 4px;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-edge);
+  background: var(--switch-track);
+  cursor: pointer;
+}
+.theme-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: var(--knob-inset);
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 999px;
+  background: var(--switch-knob);
+  transition: left 0.2s ease, background-color var(--transition);
+}
+
+/* The knob's travel mirrors the color-scheme rules at the top of this file
+   exactly: right in the dark appearance, left in the light one. It cannot
+   ride on a token the way its colour does, because light-dark() resolves
+   only <color> — a length inside it makes the whole declaration invalid and
+   the knob never leaves its start position. Measuring the offset from 100%
+   keeps it symmetric when the mobile rules shrink the control.
+   Gated on light-dark() so the fallback above keeps the promise it makes:
+   where the colours cannot invert, the knob stays where it started rather
+   than sliding across a page that never changed appearance. */
+@supports (color: light-dark(#000, #fff)) {
+  :root:has(.theme-switch-input:checked) .theme-switch::after {
+    left: calc(100% - var(--knob-size) - var(--knob-inset));
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .theme-switch::after { left: calc(100% - var(--knob-size) - var(--knob-inset)); }
+    :root:has(.theme-switch-input:checked) .theme-switch::after { left: var(--knob-inset); }
+  }
+}
+
+/* Mobile toggle (checkbox hack — no JavaScript required).
+   The checkbox stays real and focusable so it is reachable by keyboard and
+   announced by screen readers; the label beneath is decorative and only
+   draws the three bars. Both are hidden on desktop. ---------------------- */
+.nav-toggle-input { display: none; }
+
+.nav-toggle-label {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+}
+.nav-toggle-label .bar {
+  width: 20px;
+  height: 1.5px;
+  margin-inline: auto;
+  background: var(--ink);
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+
+/* ==========================================================================
+   8. HERO (home page)
+   ========================================================================== */
+.hero-section {
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--rule);
+  padding-block: 72px 88px;
+}
+
+.hero-container {
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* Eyebrow: a tracked label sitting on a short rule, not a coloured pill. */
+.hero-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--accent);
+  padding-bottom: 14px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-title {
+  margin-bottom: 22px;
+  max-width: 14ch;
+}
+/* The brand run inside the headline takes the accent colour flat. Clipping
+   a gradient into text is the single most recognisable template flourish
+   there is, so the accent is simply the accent. */
+.hero-title .accent { color: var(--warm); }
+
+.hero-subtitle {
+  color: var(--ink-soft);
+  font-size: 1.16rem;
+  max-width: 44ch;
+  margin-bottom: 34px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+/* Trust marks set as a rule-separated row of tracked capitals rather than
+   an icon beside each claim. */
+.hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+}
+.hero-trust-item {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding-right: 20px;
+  margin-right: 20px;
+  border-right: 1px solid var(--rule);
+}
+.hero-trust-item:last-child {
+  padding-right: 0;
+  margin-right: 0;
+  border-right: none;
+}
+
+/* Hero visual: one product, squared off, with a plain caption beneath it
+   instead of a frosted tag floating over the image. ---------------------- */
+.hero-visual {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-spotlight-card {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--rule);
+  background: var(--surface-raised);
+}
+.hero-spotlight-card img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+}
+.hero-spotlight-tag {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--rule);
+  padding: 14px 18px;
+  font-size: 0.98rem;
+  color: var(--ink);
+}
+.hero-spotlight-tag span {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--warm);
+}
+
+
+/* ==========================================================================
+   9. SECTION HEADERS
+   ========================================================================== */
+.section-header {
+  max-width: 620px;
+  margin-bottom: 52px;
+}
+.section-header.center { margin-inline: auto; text-align: center; }
+
+.section-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.section-dark .section-eyebrow { color: var(--accent-on-invert); }
+
+.section-title { margin-bottom: 14px; }
+
+.section-subtitle {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+}
+
+
+/* ==========================================================================
+   10. PRODUCT GRID
+   Catalogue entries, not cards: no border box, no shadow, no lift. A rule
+   across the top of each column does the separating, the way a printed
+   price list would.
+   ========================================================================== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px 28px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+}
+
+.product-img-wrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--surface-alt);
+  margin-bottom: 16px;
+}
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--badge-bg);
+  color: var(--badge-ink);
+  font-size: 0.75rem;
+  padding: 6px 10px;
+}
+
+.product-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-category {
+  font-size: 0.75rem;
+  color: var(--ink-mute);
+  margin-bottom: 7px;
+}
+
+.product-title {
+  font-size: 1.22rem;
+  line-height: 1.25;
+  margin-bottom: 7px;
+}
+
+.product-desc {
+  font-size: 0.97rem;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.product-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.product-price {
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--warm);
+}
+
+/* A text link with a rule under it, not an outlined chip with an arrow. */
+.product-link {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.product-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.products-footer-action {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+
+
+/* ==========================================================================
+   11. REASONS LIST ("Why APEX MARKET")
+   Four claims in two columns, each opened by a rule. Previously these were
+   four bordered cards in a row, each with a tinted icon tile — the exact
+   shape every template ships with.
+   ========================================================================== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 64px;
+}
+
+.feature-card {
+  border-top: 1px solid var(--rule-invert);
+  padding-block: 30px;
+}
+
+.feature-title {
+  font-size: 1.35rem;
+  margin-bottom: 10px;
+}
+.feature-text {
+  color: var(--on-invert-soft);
+  font-size: 1rem;
+  max-width: 44ch;
+}
+
+
+/* ==========================================================================
+   12. NUMBERED PROCESS ("How it works")
+   A genuine ordered sequence, so it keeps its three columns. The numerals
+   are set large and solid rather than outlined in a stroke colour, and the
+   rule that opens each step is the interactive blue: this is the one block
+   on the page that describes an action.
+   ========================================================================== */
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px;
+}
+
+.process-step {
+  border-top: 2px solid var(--accent);
+  padding-top: 20px;
+}
+
+.process-number {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.process-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.process-text { font-size: 1rem; }
+
+
+/* ==========================================================================
+   13. SPECIFICATION LIST
+   Delivery windows, returns, payment and support hours, set as a plain
+   two-column table of facts. This block replaced three invented customer
+   testimonials: five stars and a set of initials in a circle prove
+   nothing, where a published returns window is checkable.
+   ========================================================================== */
+.spec-list {
+  border-top: 1px solid var(--rule);
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  align-items: baseline;
+  padding-block: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.spec-term {
+  font-size: 0.75rem;
+  color: var(--warm);
+}
+
+.spec-desc {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  max-width: 62ch;
+}
+.spec-desc strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+
+/* ==========================================================================
+   14. CTA BLOCK
+   ========================================================================== */
+.cta-banner {
+  background: var(--surface-invert);
+  padding: 72px 48px;
+  text-align: center;
+}
+.cta-banner h2 { color: var(--on-invert); margin-bottom: 14px; }
+.cta-banner p {
+  color: var(--on-invert-soft);
+  max-width: 50ch;
+  margin-inline: auto;
+  margin-bottom: 34px;
+  font-size: 1.1rem;
+}
+.cta-banner-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+/* ==========================================================================
+   15. FOOTER
+   ========================================================================== */
+.footer {
+  background: var(--surface-invert-deep);
+  color: var(--on-invert-soft);
+  padding-top: 72px;
+}
+/* On the dark ground the crossbar of the "A" is cut in the footer colour
+   and the legs take their standing-on-navy values, so the same SVG reads
+   correctly on both surfaces. */
+.footer .logo-mark-a-left  { fill: var(--accent-on-invert); }
+.footer .logo-mark-a-right { fill: var(--warm-on-invert); }
+.footer .logo-mark-a-bar   { fill: var(--surface-invert-deep); }
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
+  gap: 40px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--rule-invert);
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--on-invert);
+  margin-bottom: 18px;
+}
+.footer-brand .brand-word-market { color: var(--on-invert-soft); }
+
+.footer-desc {
+  color: var(--on-invert-soft);
+  font-size: 1rem;
+  max-width: 34ch;
+  margin-bottom: 24px;
+}
+
+/* Named links, not a row of glyph-filled circles. */
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.footer-social-link {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-invert-soft);
+  border-bottom: 1px solid var(--rule-invert);
+  padding-bottom: 3px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.footer-social-link:hover {
+  color: var(--accent-on-invert);
+  border-bottom-color: var(--accent-on-invert);
+}
+
+.footer-heading {
+  font-family: var(--font-sans);
+  color: var(--on-invert);
+  font-size: 0.75rem;
+  margin-bottom: 22px;
+}
+
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-link {
+  color: var(--on-invert-soft);
+  font-size: 1rem;
+  width: fit-content;
+  transition: color var(--transition);
+}
+.footer-link:hover { color: var(--accent-on-invert); }
+.footer-link[aria-current="page"] { color: var(--on-invert); }
+
+.footer-contact-item {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  max-width: 30ch;
+}
+.footer-contact-item a { transition: color var(--transition); }
+.footer-contact-item a:hover { color: var(--accent-on-invert); }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-block: 26px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--on-invert-soft);
+}
+.footer-bottom p { color: inherit; font-family: inherit; }
+.footer-bottom-links { display: flex; gap: 24px; }
+.footer-bottom-links a { transition: color var(--transition); }
+.footer-bottom-links a:hover { color: var(--accent-on-invert); }
+
+
+/* ==========================================================================
+   16. ABOUT PAGE COMPONENTS
+   ========================================================================== */
+.page-hero {
+  background: var(--surface-invert);
+  padding-block: 84px;
+}
+.page-hero-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--accent-on-invert);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--rule-invert);
+  max-width: 620px;
+}
+.page-hero h1 {
+  color: var(--on-invert);
+  margin-bottom: 18px;
+  max-width: 20ch;
+}
+.page-hero p {
+  color: var(--on-invert-soft);
+  max-width: 56ch;
+  font-size: 1.16rem;
+}
+
+/* Mission & vision: two columns of prose divided by a rule, not two
+   rounded panels each carrying a tinted icon tile. */
+.mv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+}
+.mv-card {
+  border-top: 2px solid var(--warm);
+  padding-top: 22px;
+}
+.mv-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--warm);
+  margin-bottom: 14px;
+}
+.mv-card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+.mv-card p { font-size: 1.05rem; }
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+  align-items: center;
+}
+.story-img-wrap { border: 1px solid var(--rule); }
+.story-img-wrap img { width: 100%; height: 440px; object-fit: cover; }
+.section-dark .story-img-wrap { border-color: var(--rule-invert); }
+.story-content h2 { margin-bottom: 18px; }
+.story-content p { margin-bottom: 16px; font-size: 1.05rem; }
+.story-content p:last-child { margin-bottom: 0; }
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.value-card {
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+}
+.value-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.value-card p { font-size: 0.98rem; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+/* Extra breathing room when the stats grid follows the team story block */
+.team-stats { margin-top: 72px; }
+.stat-card {
+  border-top: 1px solid var(--rule-invert);
+  padding-top: 20px;
+}
+.stat-number {
+  display: block;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--warm-on-invert);
+  margin-bottom: 12px;
+}
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--on-invert-soft);
+}
+
+
+/* ==========================================================================
+   17. CONTACT PAGE COMPONENTS
+   ========================================================================== */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.contact-form {
+  border: 1px solid var(--rule);
+  background: var(--surface-raised);
+  padding: 40px;
+}
+.contact-form h2 { margin-bottom: 10px; }
+.contact-form > p { margin-bottom: 30px; }
+
+/* The row spaces itself from what follows it. A grid item's margin adds to
+   its track rather than collapsing into it, so while the fields inside did
+   that spacing the gap below the row was really the leftover margin of
+   whichever field still had one — and it disappeared when the row stacked
+   into a single column. */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 20px;
+  margin-bottom: 22px;
+}
+
+.form-group { margin-bottom: 22px; }
+/* Inside a row the gap does this, in both the two-column and the stacked
+   arrangement. */
+.form-row .form-group { margin-bottom: 0; }
+/* The full-width submit button carries its own space above it (see below),
+   so the field it follows gives up its margin instead of adding to it.
+   Keyed to the button rather than to position: the last child of these
+   forms is the button, and the last div is not always a field — on the
+   login form it is the "remember me" row, which has margins of its own. */
+.form-group:has(+ .btn-block) { margin-bottom: 0; }
+
+.form-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 9px;
+}
+.form-label .required { color: var(--warm); margin-left: 2px; }
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid var(--rule);
+  background: var(--surface-alt);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  color: var(--ink);
+  transition: border-color var(--transition), background-color var(--transition);
+}
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--ink-mute); }
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+  outline: none;
+}
+.form-textarea { resize: vertical; min-height: 150px; }
+
+/* The contact form's submit button spans the form, so it needs a little
+   more breathing room above it than a form-group's own margin gives. */
+.contact-form .btn-block,
+.auth-card .btn-block { margin-top: 28px; }
+
+.contact-info-card {
+  background: var(--surface-invert);
+  padding: 40px;
+  margin-bottom: 28px;
+}
+.contact-info-card h2 { color: var(--on-invert); margin-bottom: 10px; }
+.contact-info-card > p { color: var(--on-invert-soft); margin-bottom: 30px; }
+
+.contact-info-item {
+  padding-block: 18px;
+  border-top: 1px solid var(--rule-invert);
+}
+.contact-info-item:first-of-type { border-top: none; padding-top: 0; }
+
+.contact-info-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--accent-on-invert);
+  margin-bottom: 8px;
+}
+.contact-info-item span,
+.contact-info-item a,
+.contact-info-item address {
+  display: block;
+  color: var(--on-invert);
+  font-size: 1.05rem;
+}
+.contact-info-item a:hover { color: var(--accent-on-invert); }
+
+/* The label sits inside the item too, so it has to win back its own size
+   and colour from the rule above. */
+.contact-info-item .contact-info-label {
+  color: var(--accent-on-invert);
+  font-size: 0.75rem;
+}
+
+.map-wrapper {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  aspect-ratio: 16 / 10;
+  background: var(--surface-alt);
+}
+
+/* The address layer sits underneath the frame. A loaded map paints over it
+   completely; a map that is blocked, offline or still on its way leaves the
+   address showing, because the embed renders transparent until it has
+   something to draw. The aspect-ratio holds the slot either way, so the
+   page never jumps when the map does arrive. */
+.map-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+.map-fallback-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--ink-mute);
+  margin-bottom: 12px;
+}
+
+.map-wrapper iframe {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  /* The embed arrives in Google's own colours, which are louder than
+     anything else on the page; muting it slightly settles it into the
+     spread without hiding any detail. */
+  filter: saturate(0.72) contrast(0.96);
+}
+
+/* Kept outside the frame so it stays clickable even when the iframe is
+   present but blank and swallowing the pointer. */
+.map-caption {
+  margin-top: 14px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.map-caption a {
+  color: var(--accent);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.map-caption a:hover {
+  color: var(--accent-strong);
+  border-bottom-color: var(--accent);
+}
+
+
+/* ==========================================================================
+   18. LOGIN / AUTH PAGE COMPONENTS
+   ========================================================================== */
+.auth-section {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-alt);
+  padding-block: 72px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  background: var(--surface-raised);
+  border: 1px solid var(--rule);
+  padding: 44px 40px;
+  margin-inline: 20px;
+}
+
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+/* The card is a raised surface, so the crossbar is cut in that colour
+   rather than in the page ground. */
+.auth-card .logo-mark-a-bar { fill: var(--surface-raised); }
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 34px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--rule);
+}
+.auth-header h1 { font-size: 2rem; margin-bottom: 8px; }
+.auth-header p { font-size: 1rem; }
+
+.form-check-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.form-checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.form-forgot {
+  font-size: 0.98rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--rule);
+  transition: border-color var(--transition), color var(--transition);
+}
+.form-forgot:hover { color: var(--accent-strong); border-bottom-color: var(--accent); }
+
+.auth-footer-note {
+  text-align: center;
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+}
+/* The note is the only prose inside the card, so its link has to look like
+   one. Everything else in here is form furniture carrying rules of its own,
+   and the base `a { color: inherit; text-decoration: none }` would otherwise
+   hide the way across to the other auth page entirely. Same treatment the
+   legal pages give their links. */
+.auth-footer-note a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.auth-footer-note a:hover { color: var(--accent-strong); }
+
+
+/* ==========================================================================
+   19. SHOP PAGE COMPONENTS
+   ========================================================================== */
+.shop-hero {
+  background: var(--surface-invert);
+  padding-block: 76px;
+}
+.shop-hero-content { max-width: 640px; }
+.shop-hero h1 { color: var(--on-invert); margin-bottom: 16px; }
+.shop-hero p { color: var(--on-invert-soft); font-size: 1.16rem; }
+
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule-invert);
+}
+.chip {
+  padding: 11px 20px;
+  border: 1px solid var(--rule-invert);
+  color: var(--on-invert-soft);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+.chip:hover {
+  background: var(--accent-on-invert);
+  border-color: var(--accent-on-invert);
+  color: var(--navy-950);
+}
+
+.shop-grid-section { padding-block: 76px; }
+
+.shop-category-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 30px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--accent);
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+.shop-category-heading h2 { font-size: 1.9rem; }
+.shop-category-heading span {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px 28px;
+  margin-bottom: 72px;
+}
+.shop-grid:last-of-type { margin-bottom: 0; }
+
+
+/* ==========================================================================
+   20. LEGAL PAGES (privacy, terms)
+   A single measured column of running prose. Legal copy is read, not
+   scanned, so it gets a text column and nothing else.
+   ========================================================================== */
+.legal-content {
+  max-width: 68ch;
+  font-size: 1.08rem;
+}
+
+.legal-meta {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--ink-mute);
+  padding-bottom: 18px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.legal-content h2 {
+  font-size: 1.7rem;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.legal-content h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+.legal-content h3 {
+  font-size: 1.22rem;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+.legal-content p { margin-bottom: 18px; }
+
+.legal-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+.legal-content li {
+  position: relative;
+  color: var(--ink-soft);
+  padding-left: 22px;
+  margin-bottom: 10px;
+}
+/* An en dash marks each item. A green tick would be a decoration
+   pretending to be a verification. */
+.legal-content li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--warm);
+}
+
+.legal-content address {
+  font-style: normal;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+
+/* ==========================================================================
+   21. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* ---- Tablet ( <= 1024px ) --------------------------------------------- */
+@media (max-width: 1024px) {
+  .product-grid,
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .values-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+
+  .features-grid { grid-template-columns: 1fr; }
+  .process-list { grid-template-columns: 1fr; gap: 32px; }
+
+  .hero-container { grid-template-columns: 1fr; gap: 48px; }
+  .hero-title { max-width: 18ch; }
+  .hero-visual { justify-content: flex-start; }
+  .hero-spotlight-card { max-width: 100%; }
+  .hero-spotlight-card img { height: 380px; }
+
+  .story-grid,
+  .mv-grid,
+  .contact-layout { grid-template-columns: 1fr; }
+  .story-grid { gap: 32px; }
+  .story-img-wrap img { height: 340px; }
+
+  .spec-row { grid-template-columns: 200px 1fr; gap: 24px; }
+
+  .footer-grid { grid-template-columns: 1fr 1fr; row-gap: 44px; }
+}
+
+/* ---- Mobile ( <= 720px ) -----------------------------------------------
+   The pill keeps the brand, the theme switch and the menu button; the
+   links drop into a second pill below it, drawn from the same glass. ---- */
+@media (max-width: 720px) {
+  /* The header shrinks here — 12px padding, a 58px pill, 12px again — so the
+     90px declared at the top of the file is 8px too tall from this width
+     down. The token feeds scroll-padding-top and the auth page's min-height,
+     so leaving it stale made every anchor jump overshoot by exactly that
+     much. Redeclared rather than recalculated, to keep it greppable. */
+  :root { --header-height: 82px; }   /* 12px + 58px pill + 12px */
+
+  .section { padding-block: 64px; }
+
+  header { padding: 12px 16px; }
+  /* 16px of header padding plus 8px inside the pill puts the logo on 24px,
+     which is where .container's padding-inline puts every heading and
+     paragraph on this breakpoint. Below 720px the container spans the full
+     viewport, so the sum is the alignment and it is exact here - unlike the
+     desktop rule above, which can only be exact on one side of 1248px. */
+  .navbar-container { height: 58px; padding: 0 8px; }
+
+  .navbar-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    margin-left: 0;
+    padding-inline: 10px;
+    border-radius: 26px;
+    border: 1px solid transparent;
+    /* The bar is translucent because nothing has to be read through it.
+       The panel is not: four links over a photograph need an opaque
+       ground, so this one only borrows the pill's edge and shadow. */
+    background: var(--surface-raised);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    /* Collapsed to nothing is not the same as gone: a zero-height clipped
+       panel still hands its four links to the keyboard and the screen
+       reader, so a closed menu spends four tab stops on invisible targets.
+       visibility takes them out of the tree. It animates in discrete steps
+       that hold the old value for the whole duration, so naming it here
+       keeps the panel on screen while it collapses and hides it only once
+       that has finished — on the way open it applies at once. */
+    visibility: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease, visibility 0.3s;
+  }
+  .nav-toggle-input:checked ~ .navbar-menu {
+    max-height: 340px;
+    padding-block: 10px;
+    opacity: 1;
+    visibility: visible;
+    border-color: var(--glass-edge);
+    box-shadow: 0 18px 40px -18px var(--glass-shadow);
+  }
+  .navbar-menu li { width: 100%; }
+  .navbar-link { padding: 14px 18px; border-radius: 18px; width: 100%; }
+  .navbar-link-cta {
+    width: 100%;
+    margin: 8px 0 2px;
+    justify-content: center;
+  }
+
+  .theme-switch-wrap {
+    position: absolute;
+    top: 50%;
+    right: 56px;
+    transform: translateY(-50%);
+  }
+  .theme-switch { width: 44px; height: 26px; --knob-size: 18px; }
+
+  .nav-toggle-input {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 20;
+  }
+  .nav-toggle-label {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 10;
+  }
+  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .product-grid,
+  .shop-grid,
+  .values-grid,
+  .stats-grid { grid-template-columns: 1fr; }
+
+  .hero-section { padding-block: 48px 64px; }
+  .hero-title { max-width: none; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-trust-item {
+    padding-right: 14px;
+    margin-right: 14px;
+    margin-bottom: 8px;
+  }
+
+  .spec-row { grid-template-columns: 1fr; gap: 8px; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .shop-category-heading { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+  .contact-form,
+  .contact-info-card { padding: 28px 22px; }
+
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+  .cta-banner { padding: 48px 24px; }
+
+  .auth-card { padding: 34px 26px; }
+}
+
+/* The brand descriptor and the wordmark's second word are the first things
+   to go when the pill runs out of room. */
+@media (max-width: 420px) {
+  .navbar-brand-text small { display: none; }
+  .navbar-brand { font-size: 1.2rem; }
+}
+
+/* The theme switch is pinned 100px in from the pill's right edge to clear
+   the menu button, and the brand does not shrink — it is a wordmark, not a
+   sentence, so it cannot negotiate for that space and would simply cross
+   into the switch. Full wordmark plus mark is about 179px, and the room
+   left for it is the viewport less 154px of chrome, so the two collide
+   below roughly 333px. Under that the second word goes, which is what the
+   note above has always promised: "APEX" beside the mark still reads as the
+   brand, and a switch sitting on top of the "T" does not. */
+@media (max-width: 340px) {
+  .brand-word-market { display: none; }
+}
+
+
+/* ==========================================================================
+   22. REDUCED MOTION
+   Respect the user's OS-level preference to minimise animation. There is
+   very little left to suppress, which is itself the point.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

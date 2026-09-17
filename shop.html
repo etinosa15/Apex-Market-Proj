@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All Products | APEX MARKET</title>
+  <meta name="description" content="Browse electronics, fashion and home essentials at APEX MARKET. Quality, verified products with fast nationwide delivery across Nigeria.">
+  <link rel="canonical" href="https://apexmarket.ng/shop.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="APEX MARKET">
+  <meta property="og:locale" content="en_NG">
+  <meta property="og:url" content="https://apexmarket.ng/shop.html">
+  <meta property="og:title" content="Shop All Products | APEX MARKET">
+  <meta property="og:description" content="Browse electronics, fashion and home essentials at APEX MARKET. Quality, verified products with fast nationwide delivery across Nigeria.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=1200&h=630&q=80">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Premium wireless over-ear headphones, one of APEX MARKET's best-selling audio products">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shop All Products | APEX MARKET">
+  <meta name="twitter:description" content="Browse electronics, fashion and home essentials at APEX MARKET. Quality, verified products with fast nationwide delivery across Nigeria.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=1200&h=630&q=80">
+  <meta name="theme-color" content="#f5f1e9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#04101f" media="(prefers-color-scheme: dark)">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= Header / Navigation Start =================
+       Note: per spec the primary nav holds exactly four links (Home,
+       About, Contact, Register Now). This Shop page is reached via the
+       hero/CTA buttons on other pages and the footer's "Explore" list. -->
+  <header>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <nav class="navbar" aria-label="Primary navigation">
+      <div class="navbar-container">
+
+        <a href="index.html" class="navbar-brand" aria-label="APEX MARKET home">
+          <svg class="logo-mark" width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+            <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+            <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+          </svg>
+          <span class="navbar-brand-text"><span class="brand-word-apex">APEX</span><span class="brand-word-market">MARKET</span><small>Online Marketplace</small></span>
+        </a>
+
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-controls="navbar-menu" aria-label="Toggle navigation menu">
+        <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </label>
+
+        <ul class="navbar-menu" id="navbar-menu" role="list">
+          <li><a href="index.html" class="navbar-link">Home</a></li>
+          <li><a href="about.html" class="navbar-link">About</a></li>
+          <li><a href="contact.html" class="navbar-link">Contact</a></li>
+          <li><a href="register.html" class="navbar-link navbar-link-cta">Register Now</a></li>
+        </ul>
+
+        <!-- Light / dark switch. Same checkbox trick as the menu above and
+             equally scriptless: the page follows the operating system until
+             this is ticked, and ticking it takes the opposite appearance.
+             There is no storage behind it, so the choice lasts for the page. -->
+        <div class="theme-switch-wrap">
+          <input type="checkbox" id="theme-switch" class="theme-switch-input" aria-label="Use the opposite of my system light or dark appearance">
+          <label for="theme-switch" class="theme-switch" title="Light / dark appearance" aria-hidden="true"></label>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+  <!-- ================= Header / Navigation End ================= -->
+
+  <main id="main">
+
+    <!-- ================= Shop Hero Start ================= -->
+    <section class="shop-hero">
+      <div class="container">
+        <div class="shop-hero-content">
+          <span class="page-hero-eyebrow">Shop All Products</span>
+          <h1>Every Category, Verified Quality</h1>
+          <p>Browse our full catalogue of electronics, fashion and home essentials. Every listing is checked before it reaches you.</p>
+        </div>
+
+        <!-- Category chips: plain anchor links to the sections below, no JavaScript -->
+        <nav class="category-chips" aria-label="Jump to category">
+          <a href="#electronics" class="chip">Electronics</a>
+          <a href="#fashion" class="chip">Fashion &amp; Accessories</a>
+          <a href="#home" class="chip">Home &amp; Living</a>
+        </nav>
+      </div>
+    </section>
+    <!-- ================= Shop Hero End ================= -->
+
+    <!-- ================= Shop Grid Section Start ================= -->
+    <section class="shop-grid-section section-white">
+      <div class="container">
+
+        <!-- Each card's "View" points at the category it sits in, which is
+             where the home page's cards already send you. There are no
+             per-product pages yet; until there are, a link to "#" that
+             silently jumps to the top of the document is worse than one that
+             lands on the right shelf. -->
+
+        <!-- Electronics category -->
+        <div class="shop-category-heading" id="electronics">
+          <h2>Electronics</h2>
+          <span>3 products</span>
+        </div>
+        <div class="shop-grid">
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Best Seller</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=700&h=875&q=80" alt="Black over-ear wireless headphones on a dark surface" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Audio</span>
+              <h3 class="product-title">Wireless Over-Ear Headphones</h3>
+              <p class="product-desc">Rich, immersive sound with active noise cancellation and up to 30 hours of battery life.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;45,000</span>
+                <a href="shop.html#electronics" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Trending</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1722153105551-cfea928e80de?auto=format&fit=crop&w=700&h=875&q=80" alt="Person wearing a modern smartwatch showing the watch face" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Wearables</span>
+              <h3 class="product-title">Fitness Smartwatch</h3>
+              <p class="product-desc">Track workouts, heart rate and sleep with a bright always-on display and 7-day battery.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;68,500</span>
+                <a href="shop.html#electronics" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Popular</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1542483381-41a479b1fb88?auto=format&fit=crop&w=700&h=875&q=80" alt="A compact white portable Bluetooth speaker" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Audio</span>
+              <h3 class="product-title">Portable Bluetooth Speaker</h3>
+              <p class="product-desc">Deep, room-filling sound in a compact, splash-resistant body with 12-hour playtime.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;24,500</span>
+                <a href="shop.html#electronics" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Fashion & Accessories category -->
+        <div class="shop-category-heading" id="fashion">
+          <h2>Fashion &amp; Accessories</h2>
+          <span>4 products</span>
+        </div>
+        <div class="shop-grid">
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">New</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1676379827610-c380c52db0c6?auto=format&fit=crop&w=700&h=875&q=80" alt="A pair of clean white sneakers on a white background" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Footwear</span>
+              <h3 class="product-title">Everyday Canvas Sneakers</h3>
+              <p class="product-desc">Lightweight, breathable and built for all-day comfort. Pairs with almost anything.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;32,000</span>
+                <a href="shop.html#fashion" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Summer Pick</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1523884156331-22cc4f5df98d?auto=format&fit=crop&w=700&h=875&q=80" alt="Black sunglasses laid flat on a light background" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Eyewear</span>
+              <h3 class="product-title">Classic Frame Sunglasses</h3>
+              <p class="product-desc">UV-protective lenses in a timeless frame that works for every season.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;15,000</span>
+                <a href="shop.html#fashion" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Everyday</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1594299447935-e5b840f54b9b?auto=format&fit=crop&w=700&h=875&q=80" alt="A black backpack resting on a white surface" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Bags</span>
+              <h3 class="product-title">Everyday Commuter Backpack</h3>
+              <p class="product-desc">A padded laptop compartment and water-resistant fabric for the daily commute.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;27,000</span>
+                <a href="shop.html#fashion" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Gift Idea</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1597926576013-ab759c583dd9?auto=format&fit=crop&w=700&h=875&q=80" alt="A brown leather bifold wallet on a white table" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Accessories</span>
+              <h3 class="product-title">Leather Bifold Wallet</h3>
+              <p class="product-desc">Genuine leather with multiple card slots, stitched to last for years of daily use.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;12,000</span>
+                <a href="shop.html#fashion" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Home & Living category -->
+        <div class="shop-category-heading" id="home">
+          <h2>Home &amp; Living</h2>
+          <span>1 product</span>
+        </div>
+        <div class="shop-grid">
+
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">Popular</span>
+              <img referrerpolicy="no-referrer" class="product-img" src="https://images.unsplash.com/photo-1578913685467-e5bd9fe17fb1?auto=format&fit=crop&w=700&h=875&q=80" alt="A minimalist white ceramic vase styled with baby's breath flowers" loading="lazy" width="700" height="875">
+            </div>
+            <div class="product-body">
+              <span class="product-category">Decor</span>
+              <h3 class="product-title">Minimalist Ceramic Vase</h3>
+              <p class="product-desc">A handcrafted centrepiece that brings a calm, modern touch to any room.</p>
+              <div class="product-footer">
+                <span class="product-price">&#8358;18,500</span>
+                <a href="shop.html#home" class="product-link">View</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- ================= Shop Grid Section End ================= -->
+
+    <!-- ================= CTA Banner Section Start ================= -->
+    <section class="section section-white section-tight">
+      <div class="container">
+        <div class="cta-banner">
+          <h2>Not Seeing What You Need?</h2>
+          <p>New products are added every week. Create a free account to get notified when your favourite categories restock.</p>
+          <div class="cta-banner-actions">
+            <a href="register.html" class="btn btn-primary">Register Now</a>
+            <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ================= CTA Banner Section End ================= -->
+
+  </main>
+
+  <!-- ================= Footer Start ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <a href="index.html" class="footer-brand" aria-label="APEX MARKET home">
+            <svg class="logo-mark" width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+              <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+              <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+            </svg>
+            <span class="brand-word-apex">APEX</span><span class="brand-word-market">MARKET</span>
+          </a>
+          <p class="footer-desc">Nigeria's trusted online marketplace for quality electronics, fashion, home essentials and more, delivered nationwide.</p>
+          <!-- The three channels the Terms page already names - phone, email
+               and WhatsApp - each pointing at something that answers. What
+               stood here was four social accounts that do not exist, linked
+               to "#" on all seven pages. -->
+          <nav class="footer-social" aria-label="Ways to reach us">
+            <a href="https://wa.me/2348001234567" class="footer-social-link">WhatsApp</a>
+            <a href="mailto:hello@apexmarket.ng" class="footer-social-link">Email</a>
+            <a href="tel:+2348001234567" class="footer-social-link">Phone</a>
+          </nav>
+        </div>
+
+        <nav aria-label="Footer navigation">
+          <h3 class="footer-heading">Explore</h3>
+          <ul class="footer-links" role="list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="shop.html" class="footer-link" aria-current="page">Shop</a></li>
+            <li><a href="contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Account navigation">
+          <h3 class="footer-heading">Account</h3>
+          <ul class="footer-links" role="list">
+            <li><a href="login.html" class="footer-link">Login</a></li>
+            <li><a href="register.html" class="footer-link">Register Now</a></li>
+            <li><a href="contact.html" class="footer-link">Track Order</a></li>
+            <li><a href="contact.html" class="footer-link">Help &amp; Support</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <h3 class="footer-heading">Get in Touch</h3>
+          <address class="footer-contact-item">14 Marina Street, Lagos Island, Lagos, Nigeria</address>
+          <div class="footer-contact-item"><a href="tel:+2348001234567">+234 800 123 4567</a></div>
+          <div class="footer-contact-item"><a href="mailto:hello@apexmarket.ng">hello@apexmarket.ng</a></div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 APEX MARKET. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- ================= Footer End ================= -->
+
+</body>
+</html>

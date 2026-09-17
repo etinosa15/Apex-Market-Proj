@@ -1,0 +1,15 @@
+# Every file in this project is LF-only and has been kept that way on purpose.
+# Git on Windows will happily rewrite line endings on checkout if left to its
+# own devices, which turns a fresh clone into a whole-file diff on all nine
+# pages and the stylesheet. Pinning eol=lf makes the checkout match what is
+# committed, on any platform.
+* text=auto eol=lf
+
+# Declared so git never attempts to normalise line endings inside an image.
+# None are committed yet - these entries are here for when the hotlinked
+# photographs are brought in as local files.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.ico  binary

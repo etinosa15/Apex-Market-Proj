@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found | APEX MARKET</title>
+  <meta name="description" content="The page you asked for is not on APEX MARKET. Jump to the shop, your account or the contact page from here.">
+
+  <!-- No canonical and no og:url here, unlike the other eight pages: this one
+       answers at every address that does not exist, so there is no single URL
+       it could honestly claim as its own. noindex keeps it out of results for
+       the same reason, and follow still lets a crawler use the links below to
+       find the real pages. robots.txt disallows it too; the meta tag is what
+       actually removes it if it has already been indexed. -->
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#f5f1e9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#04101f" media="(prefers-color-scheme: dark)">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- ================= Header / Navigation Start ================= -->
+  <header>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <nav class="navbar" aria-label="Primary navigation">
+      <div class="navbar-container">
+
+        <a href="/index.html" class="navbar-brand" aria-label="APEX MARKET home">
+          <svg class="logo-mark" width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+            <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+            <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+          </svg>
+          <span class="navbar-brand-text"><span class="brand-word-apex">APEX</span><span class="brand-word-market">MARKET</span><small>Online Marketplace</small></span>
+        </a>
+
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-controls="navbar-menu" aria-label="Toggle navigation menu">
+        <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </label>
+
+        <ul class="navbar-menu" id="navbar-menu" role="list">
+          <li><a href="/index.html" class="navbar-link">Home</a></li>
+          <li><a href="/about.html" class="navbar-link">About</a></li>
+          <li><a href="/contact.html" class="navbar-link">Contact</a></li>
+          <li><a href="/register.html" class="navbar-link navbar-link-cta">Register Now</a></li>
+        </ul>
+
+        <!-- Light / dark switch. Same checkbox trick as the menu above and
+             equally scriptless: the page follows the operating system until
+             this is ticked, and ticking it takes the opposite appearance.
+             There is no storage behind it, so the choice lasts for the page. -->
+        <div class="theme-switch-wrap">
+          <input type="checkbox" id="theme-switch" class="theme-switch-input" aria-label="Use the opposite of my system light or dark appearance">
+          <label for="theme-switch" class="theme-switch" title="Light / dark appearance" aria-hidden="true"></label>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+  <!-- ================= Header / Navigation End ================= -->
+
+  <main id="main">
+
+    <!-- ================= Page Hero Start ================= -->
+    <section class="page-hero">
+      <div class="container">
+        <span class="page-hero-eyebrow">Error 404</span>
+        <h1>That Page Is Not Here</h1>
+        <p>The address you followed does not match anything on APEX MARKET. It may have been mistyped, or the page may have moved since the link to it was made.</p>
+      </div>
+    </section>
+    <!-- ================= Page Hero End ================= -->
+
+    <!-- ================= Recovery Links Start ================= -->
+    <section class="section section-white" aria-labelledby="notfound-heading">
+      <div class="container">
+        <div class="legal-content">
+
+          <h2 id="notfound-heading">Where you were probably going</h2>
+          <!-- Root-absolute hrefs on this page only. A 404 is served in reply
+               to whatever address was asked for, including one several folders
+               deep, and a relative href resolves against that address rather
+               than against this file - so "shop.html" would point somewhere
+               that does not exist either. The leading slash is what makes
+               these links survive being served from an arbitrary path. -->
+          <ul role="list">
+            <li><a href="/shop.html">Shop</a> for the full catalogue of electronics, fashion and home essentials.</li>
+            <li><a href="/index.html">Home</a> for featured products and what is currently promoted.</li>
+            <li><a href="/about.html">About Us</a> for who runs APEX MARKET and how selling here works.</li>
+            <li><a href="/contact.html">Contact</a> to reach a person about an order, a return or a listing.</li>
+            <li><a href="/login.html">Login</a> or <a href="/register.html">Register</a> for your account and order history.</li>
+          </ul>
+
+          <h2>If a link on this site sent you here</h2>
+          <p>Then the fault is ours and we would like to repair it. Tell us which page you came from on the <a href="/contact.html">contact page</a>, or email <a href="mailto:hello@apexmarket.ng">hello@apexmarket.ng</a>, and we will fix the link rather than leave the next person to find it.</p>
+
+        </div>
+      </div>
+    </section>
+    <!-- ================= Recovery Links End ================= -->
+
+  </main>
+
+  <!-- ================= Footer Start ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <a href="/index.html" class="footer-brand" aria-label="APEX MARKET home">
+            <svg class="logo-mark" width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
+              <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
+              <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+            </svg>
+            <span class="brand-word-apex">APEX</span><span class="brand-word-market">MARKET</span>
+          </a>
+          <p class="footer-desc">Nigeria's trusted online marketplace for quality electronics, fashion, home essentials and more, delivered nationwide.</p>
+          <!-- The three channels the Terms page already names - phone, email
+               and WhatsApp - each pointing at something that answers. What
+               stood here was four social accounts that do not exist, linked
+               to "#" on all seven pages. -->
+          <nav class="footer-social" aria-label="Ways to reach us">
+            <a href="https://wa.me/2348001234567" class="footer-social-link">WhatsApp</a>
+            <a href="mailto:hello@apexmarket.ng" class="footer-social-link">Email</a>
+            <a href="tel:+2348001234567" class="footer-social-link">Phone</a>
+          </nav>
+        </div>
+
+        <nav aria-label="Footer navigation">
+          <h3 class="footer-heading">Explore</h3>
+          <ul class="footer-links" role="list">
+            <li><a href="/index.html" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/shop.html" class="footer-link">Shop</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Account navigation">
+          <h3 class="footer-heading">Account</h3>
+          <ul class="footer-links" role="list">
+            <li><a href="/login.html" class="footer-link">Login</a></li>
+            <li><a href="/register.html" class="footer-link">Register Now</a></li>
+            <li><a href="/contact.html" class="footer-link">Track Order</a></li>
+            <li><a href="/contact.html" class="footer-link">Help &amp; Support</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <h3 class="footer-heading">Get in Touch</h3>
+          <address class="footer-contact-item">14 Marina Street, Lagos Island, Lagos, Nigeria</address>
+          <div class="footer-contact-item"><a href="tel:+2348001234567">+234 800 123 4567</a></div>
+          <div class="footer-contact-item"><a href="mailto:hello@apexmarket.ng">hello@apexmarket.ng</a></div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 APEX MARKET. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- ================= Footer End ================= -->
+
+</body>
+</html>
