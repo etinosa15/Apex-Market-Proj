@@ -513,8 +513,13 @@ header {
      padding lets the pill run to the screen edge, and shrinking the pill to
      1152px fixes the edges only by putting the logo hard against its border.
      The 1200px layout is drawn for wide screens, so the wide case is the one
-     that gets to be exact. */
-  padding: 0 10px 0 24px;
+     that gets to be exact.
+
+     23 and not 24 because the pill has a 1px border and .container does not.
+     Padding is measured from inside the border, so 24px here would land the
+     logo one pixel past the text it is lining up with. Measured: 5.2px out
+     before, 0.8px out at 24px, 0 at 23px. */
+  padding: 0 10px 0 23px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1715,12 +1720,13 @@ header {
   .section { padding-block: 64px; }
 
   header { padding: 12px 16px; }
-  /* 16px of header padding plus 8px inside the pill puts the logo on 24px,
-     which is where .container's padding-inline puts every heading and
-     paragraph on this breakpoint. Below 720px the container spans the full
-     viewport, so the sum is the alignment and it is exact here - unlike the
-     desktop rule above, which can only be exact on one side of 1248px. */
-  .navbar-container { height: 58px; padding: 0 8px; }
+  /* 16px of header padding, plus the pill's 1px border, plus 7px inside it
+     puts the logo on 24px, which is where .container's padding-inline puts
+     every heading and paragraph on this breakpoint. Below 720px the container
+     spans the full viewport, so that sum is the alignment and it is exact
+     here - unlike the desktop rule above, which can only be exact on one
+     side of 1248px. */
+  .navbar-container { height: 58px; padding: 0 8px 0 7px; }
 
   .navbar-menu {
     position: absolute;

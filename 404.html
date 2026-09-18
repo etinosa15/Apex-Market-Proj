@@ -21,6 +21,12 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- PNG fallbacks. Every current browser prefers the SVG above, but iOS
+       ignores rel=icon for home-screen shortcuts and some link-preview
+       services will not fetch an SVG at all. Baked in the light appearance,
+       since a PNG cannot swap grounds the way the SVG does. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
