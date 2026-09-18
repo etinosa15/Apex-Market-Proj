@@ -2,22 +2,29 @@
   <!-- Same geometric "A" mark used across the site, styled here instead of
        via fill= attributes, kept in one file since a favicon can't read
        the site's external stylesheet. The mark carries its own ground so
-       the crossbar reads on a light or a dark browser tab, and it swaps
-       that ground with the browser's appearance the way the site does. -->
+       it reads on a light or a dark browser tab, and it swaps that ground
+       with the browser's appearance the way the site does.
+
+       The crossbar is two rects rather than one because it continues each
+       leg in that leg's own colour, which is also why they carry the leg
+       classes instead of a class of their own: the bar can then never drift
+       from the legs, in either appearance. They overlap by half a unit at
+       x=16 so that antialiasing cannot leave a hairline of ground showing
+       between them; the right one is drawn second, so the seam lands
+       exactly on centre. -->
   <style>
     .ground            { fill: #f5f1e9; }
     .logo-mark-a-left  { fill: #0f5fc0; }
     .logo-mark-a-right { fill: #96461f; }
-    .logo-mark-a-bar   { fill: #f5f1e9; }
     @media (prefers-color-scheme: dark) {
       .ground            { fill: #04101f; }
       .logo-mark-a-left  { fill: #8fcaff; }
       .logo-mark-a-right { fill: #ffb020; }
-      .logo-mark-a-bar   { fill: #04101f; }
     }
   </style>
   <rect class="ground" x="0" y="0" width="32" height="32"/>
   <polygon class="logo-mark-a-left" points="16,4 4,28 12,28"/>
   <polygon class="logo-mark-a-right" points="16,4 28,28 20,28"/>
-  <rect class="logo-mark-a-bar" x="12.5" y="19" width="7" height="3"/>
+  <rect class="logo-mark-a-left" x="12.5" y="19" width="4" height="3"/>
+  <rect class="logo-mark-a-right" x="16" y="19" width="3.5" height="3"/>
 </svg>

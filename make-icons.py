@@ -7,14 +7,14 @@ readers and link-preview services still ask for a PNG. Those two callers are
 the whole reason this file exists.
 
 Written against the standard library only: zlib does the compression, struct
-does the chunk headers, and the geometry is the same four primitives the SVG
+does the chunk headers, and the geometry is the same five primitives the SVG
 declares, rasterised with 4x4 supersampling for antialiasing. No PIL, no
 cairosvg, no build step - consistent with a project that has none.
 
 The PNGs are baked in the light appearance. The SVG swaps its ground with
-prefers-color-scheme and these cannot, so they take the paper ground that the
-crossbar was designed to be cut from; an icon that is legible on a light tab
-and merely unusual on a dark one beats one that is invisible on either.
+prefers-color-scheme and these cannot, so they take the paper ground; an icon
+that is legible on a light tab and merely unusual on a dark one beats one that
+is invisible on either.
 
 Run:  py make-icons.py
 """
@@ -29,7 +29,11 @@ CLAY   = (0x96, 0x46, 0x1F)   # --warm, light
 
 LEFT_LEG  = [(16, 4), (4, 28), (12, 28)]
 RIGHT_LEG = [(16, 4), (28, 28), (20, 28)]
-BAR       = (12.5, 19, 7, 3)  # x, y, w, h - drawn in GROUND as a subtractive cut
+# The crossbar, in two halves so each continues its own leg's colour. They
+# overlap by half a unit at x=16 and the right one is drawn second, so the
+# seam lands exactly on centre with no hairline of ground between them.
+BAR_LEFT  = (12.5, 19, 4, 3)    # x, y, w, h
+BAR_RIGHT = (16, 19, 3.5, 3)
 
 SS = 4  # supersampling factor per axis
 
@@ -56,8 +60,10 @@ def sample(px, py):
         c = BLUE
     if in_triangle(px, py, RIGHT_LEG):
         c = CLAY
-    if in_rect(px, py, BAR):
-        c = GROUND
+    if in_rect(px, py, BAR_LEFT):
+        c = BLUE
+    if in_rect(px, py, BAR_RIGHT):
+        c = CLAY
     return c
 
 

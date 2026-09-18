@@ -546,13 +546,23 @@ header {
   flex-shrink: 0;
 }
 .logo-mark { flex-shrink: 0; }
-/* The mark is a geometric letter "A" built from three plain shapes — two
-   legs and a crossbar — so the icon and the brand name are the same
-   letterform. The crossbar is cut in the ground colour rather than
-   painted, which is why it changes with the surface it sits on. */
+/* The mark is a geometric letter "A" built from plain shapes - two legs and a
+   crossbar - so the icon and the brand name are the same letterform.
+
+   The crossbar carries the leg classes rather than one of its own. It is drawn
+   as two rects, each continuing its own leg's colour, so it cannot drift from
+   the legs in any context: the footer's inverted fills below apply to it for
+   free, and no third rule is needed anywhere.
+
+   It used to be cut in the ground colour instead of painted, which meant it
+   had to be told which ground it was sitting on, and that cost a rule here for
+   --surface, one in the footer for --surface-invert-deep and one in the auth
+   card for --surface-raised. It also did not work: the legs only meet at the
+   apex, so a bar in the ground colour painted ground onto ground across the
+   gap and merely notched the legs' inner edges, leaving the mark reading as a
+   triangle rather than a letter. */
 .logo-mark-a-left  { fill: var(--accent); }
 .logo-mark-a-right { fill: var(--warm); }
-.logo-mark-a-bar   { fill: var(--surface); }
 
 .navbar-brand-text { display: inline-block; line-height: 1.05; }
 .navbar-brand-text small {
@@ -1077,12 +1087,11 @@ header {
   color: var(--on-invert-soft);
   padding-top: 72px;
 }
-/* On the dark ground the crossbar of the "A" is cut in the footer colour
-   and the legs take their standing-on-navy values, so the same SVG reads
-   correctly on both surfaces. */
+/* On the dark ground the legs take their standing-on-navy values, so the same
+   SVG reads correctly on both surfaces. The crossbar needs no rule of its own
+   here: it carries the leg classes, so these two lines already cover it. */
 .footer .logo-mark-a-left  { fill: var(--accent-on-invert); }
 .footer .logo-mark-a-right { fill: var(--warm-on-invert); }
-.footer .logo-mark-a-bar   { fill: var(--surface-invert-deep); }
 
 .footer-grid {
   display: grid;
@@ -1480,9 +1489,6 @@ header {
   justify-content: center;
   margin-bottom: 22px;
 }
-/* The card is a raised surface, so the crossbar is cut in that colour
-   rather than in the page ground. */
-.auth-card .logo-mark-a-bar { fill: var(--surface-raised); }
 
 .auth-header {
   text-align: center;
