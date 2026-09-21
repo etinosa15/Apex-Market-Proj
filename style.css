@@ -1,5 +1,5 @@
 /* ==========================================================================
-   APEX MARKET — MAIN STYLESHEET
+   APEX MARKET - MAIN STYLESHEET
    ==========================================================================
    A print-catalogue treatment of an online marketplace, now in two
    appearances. Plain HTML and CSS: there is no JavaScript anywhere in this
@@ -12,7 +12,7 @@
      follows the operating system by default; the switch in the navbar
      flips it to the opposite using :has(), with no script and no storage,
      which is why the choice lasts for the page rather than the visit.
-   · Colour carries meaning, not decoration. Blue is interactive — links,
+   · Colour carries meaning, not decoration. Blue is interactive - links,
      eyebrows, focus, form states. Clay and gold mark money and figures.
      Navy is structure. Nothing is coloured only to be colourful, which is
      the difference between a palette and a rainbow.
@@ -55,12 +55,10 @@
    22. Reduced Motion
    ========================================================================== */
 
-
 /* ==========================================================================
    1. DESIGN TOKENS
    ========================================================================== */
 :root {
-
   /* --- Raw palette -------------------------------------------------------
      Two families. The blue family is the brand's own, carried over from
      the earlier build of this site; the warm family is the paper and clay
@@ -86,43 +84,46 @@
   color-scheme: light dark;
 
   /* Grounds */
-  --surface:             light-dark(#f5f1e9, #04101f);  /* page                   */
-  --surface-alt:         light-dark(#eae3d4, #0a1b33);  /* banded section         */
-  --surface-raised:      light-dark(#fbf8f2, #0d2240);  /* cards, forms, panels   */
-  --surface-invert:      light-dark(#0a1b33, #12294a);  /* the dark band          */
-  --surface-invert-deep: light-dark(#04101f, #020a14);  /* footer                 */
+  --surface: light-dark(#f5f1e9, #04101f); /* page                   */
+  --surface-alt: light-dark(#eae3d4, #0a1b33); /* banded section         */
+  --surface-raised: light-dark(#fbf8f2, #0d2240); /* cards, forms, panels   */
+  --surface-invert: light-dark(#0a1b33, #12294a); /* the dark band          */
+  --surface-invert-deep: light-dark(
+    #04101f,
+    #020a14
+  ); /* footer                 */
 
   /* Ink on the page grounds */
-  --ink:      light-dark(#0a1b33, #f4f9ff);   /* headings, strong text   */
-  --ink-soft: light-dark(#3d5573, #b9cce4);   /* body copy               */
-  --ink-mute: light-dark(#4d6785, #8aa3c2);   /* meta, captions, labels  */
+  --ink: light-dark(#0a1b33, #f4f9ff); /* headings, strong text   */
+  --ink-soft: light-dark(#3d5573, #b9cce4); /* body copy               */
+  --ink-mute: light-dark(#4d6785, #8aa3c2); /* meta, captions, labels  */
 
   /* Ink on the inverted grounds. These read on navy in either appearance,
      so they are the same in both and are written without light-dark(). */
-  --on-invert:      #f4f9ff;
+  --on-invert: #f4f9ff;
   --on-invert-soft: #c6d7ec;
 
   /* Rules */
-  --rule:        light-dark(#d8d0be, rgba(148, 183, 224, 0.22));
+  --rule: light-dark(#d8d0be, rgba(148, 183, 224, 0.22));
   --rule-invert: rgba(244, 249, 255, 0.16);
 
   /* Accents. Blue is the interactive colour; clay and gold are the
-     commercial ones — prices, figures, numerals. */
-  --accent:                 light-dark(#0f5fc0, #8fcaff);
-  --accent-strong:          light-dark(#0a4691, #cfe6ff);
-  --accent-on-invert:       #8fcaff;
-  --accent-on-invert-strong:#cfe6ff;
-  --warm:                   light-dark(#96461f, #ffb020);
-  --warm-on-invert:         #ffb020;
+     commercial ones - prices, figures, numerals. */
+  --accent: light-dark(#0f5fc0, #8fcaff);
+  --accent-strong: light-dark(#0a4691, #cfe6ff);
+  --accent-on-invert: #8fcaff;
+  --accent-on-invert-strong: #cfe6ff;
+  --warm: light-dark(#96461f, #ffb020);
+  --warm-on-invert: #ffb020;
 
   /* Filled controls */
-  --fill:      light-dark(#0a1b33, #2f9bff);
-  --fill-hover:light-dark(#12294a, #55b1ff);
-  --on-fill:   light-dark(#f5f1e9, #04101f);
+  --fill: light-dark(#0a1b33, #2f9bff);
+  --fill-hover: light-dark(#12294a, #55b1ff);
+  --on-fill: light-dark(#f5f1e9, #04101f);
 
-  /* Catalogue badge — clay with light type by day, gold with dark type by
+  /* Catalogue badge - clay with light type by day, gold with dark type by
      night, because a gold chip needs dark type to stay readable. */
-  --badge-bg:  light-dark(#96461f, #ffb020);
+  --badge-bg: light-dark(#96461f, #ffb020);
   --badge-ink: light-dark(#f9f6f0, #04101f);
 
   /* Glass, used by the navbar pill only (the mobile panel below takes an
@@ -140,21 +141,24 @@
      pure black backdrop, which is the worst case there is rather than a
      likely one. The blur and the saturate both survive; they are simply
      doing their work through a narrower opening. */
-  --glass:        light-dark(rgba(250, 247, 240, 0.94), rgba(13, 34, 60, 0.94));
-  --glass-edge:   light-dark(rgba(255, 252, 246, 0.80), rgba(143, 202, 255, 0.20));
-  --glass-sheen:  light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.08));
+  --glass: light-dark(rgba(250, 247, 240, 0.94), rgba(13, 34, 60, 0.94));
+  --glass-edge: light-dark(rgba(255, 252, 246, 0.8), rgba(143, 202, 255, 0.2));
+  --glass-sheen: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.08)
+  );
   --glass-shadow: light-dark(rgba(10, 27, 51, 0.22), rgba(0, 0, 0, 0.55));
-  --nav-active:   light-dark(rgba(15, 95, 192, 0.12), rgba(143, 202, 255, 0.16));
+  --nav-active: light-dark(rgba(15, 95, 192, 0.12), rgba(143, 202, 255, 0.16));
 
   /* Theme switch: the knob sits left in the light appearance and right in
      the dark one. Its colour is a token like any other; its position is not
-     — light-dark() resolves only <color>, so the offset is set by the same
+     - light-dark() resolves only <color>, so the offset is set by the same
      :has() rules that drive color-scheme (see below the switch styles). */
-  --switch-track: light-dark(rgba(10, 27, 51, 0.10), rgba(143, 202, 255, 0.16));
-  --switch-knob:  light-dark(#96461f, #dcecff);
+  --switch-track: light-dark(rgba(10, 27, 51, 0.1), rgba(143, 202, 255, 0.16));
+  --switch-knob: light-dark(#96461f, #dcecff);
 
   /* Focus */
-  --focus-ring:        light-dark(#0f5fc0, #8fcaff);
+  --focus-ring: light-dark(#0f5fc0, #8fcaff);
   --focus-ring-invert: #8fcaff;
 
   /* --- Typography --------------------------------------------------------
@@ -170,8 +174,8 @@
      floor, not a suggestion. Weight and tracking already carry the
      hierarchy those missing pixels were being asked to carry, so the
      whole cost of the change is a few pixels of label width.        --- */
-  --font-serif: 'EB Garamond', Garamond, Georgia, serif;
-  --font-sans:  'Libre Franklin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: "EB Garamond", Garamond, Georgia, serif;
+  --font-sans: "Libre Franklin", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* --- Motion ------------------------------------------------------------
      One duration, one easing, colour properties only.                 --- */
@@ -179,18 +183,22 @@
 
   /* --- Layout ------------------------------------------------------------*/
   --container-width: 1200px;
-  --header-height: 90px;   /* 14px + 62px pill + 14px */
+  --header-height: 90px; /* 14px + 62px pill + 14px */
 }
 
 /* The manual override. Unchecked, the page follows the system; checked, it
-   takes the opposite appearance — which is the only behaviour a single
+   takes the opposite appearance - which is the only behaviour a single
    checkbox can offer, and the only one anybody actually wants from it.
    Written against :root rather than body so the browser canvas, the
    scrollbars and the form controls change with the rest. */
-:root:has(.theme-switch-input:checked) { color-scheme: dark; }
+:root:has(.theme-switch-input:checked) {
+  color-scheme: dark;
+}
 
 @media (prefers-color-scheme: dark) {
-  :root:has(.theme-switch-input:checked) { color-scheme: light; }
+  :root:has(.theme-switch-input:checked) {
+    color-scheme: light;
+  }
 }
 
 /* Browsers without light-dark() would otherwise get no colour at all, so
@@ -199,31 +207,42 @@
    light page with no switch rather than a broken one. */
 @supports not (color: light-dark(#000, #fff)) {
   :root {
-    --surface: #f5f1e9;      --surface-alt: #eae3d4;
+    --surface: #f5f1e9;
+    --surface-alt: #eae3d4;
     --surface-raised: #fbf8f2;
-    --surface-invert: #0a1b33; --surface-invert-deep: #04101f;
-    --ink: #0a1b33;          --ink-soft: #3d5573;      --ink-mute: #4d6785;
+    --surface-invert: #0a1b33;
+    --surface-invert-deep: #04101f;
+    --ink: #0a1b33;
+    --ink-soft: #3d5573;
+    --ink-mute: #4d6785;
     --rule: #d8d0be;
-    --accent: #0f5fc0;       --accent-strong: #0a4691;
+    --accent: #0f5fc0;
+    --accent-strong: #0a4691;
     --warm: #96461f;
-    --fill: #0a1b33;         --fill-hover: #12294a;    --on-fill: #f5f1e9;
-    --badge-bg: #96461f;     --badge-ink: #f9f6f0;
+    --fill: #0a1b33;
+    --fill-hover: #12294a;
+    --on-fill: #f5f1e9;
+    --badge-bg: #96461f;
+    --badge-ink: #f9f6f0;
     --glass: rgba(250, 247, 240, 0.94);
-    --glass-edge: rgba(255, 252, 246, 0.80);
+    --glass-edge: rgba(255, 252, 246, 0.8);
     --glass-sheen: rgba(255, 255, 255, 0.85);
     --glass-shadow: rgba(10, 27, 51, 0.22);
     --nav-active: rgba(15, 95, 192, 0.12);
-    --switch-track: rgba(10, 27, 51, 0.10);
+    --switch-track: rgba(10, 27, 51, 0.1);
     --switch-knob: #96461f;
     --focus-ring: #0f5fc0;
   }
 }
 
-
 /* ==========================================================================
    2. CSS RESET / BASE ELEMENTS
    ========================================================================== */
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
@@ -231,7 +250,18 @@ html {
   background-color: var(--surface);
 }
 
-body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol {
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+ol {
   margin: 0;
 }
 
@@ -239,19 +269,41 @@ body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol {
    with VoiceOver stops announcing "list, 4 items" once list-style is none,
    so every <ul> carrying a class here also carries role="list" in the HTML
    to put the semantics back. */
-ul[class], ol[class] { list-style: none; padding: 0; }
+ul[class],
+ol[class] {
+  list-style: none;
+  padding: 0;
+}
 
-img, picture, svg { display: block; max-width: 100%; }
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
 
-input, button, textarea, select { font: inherit; color: inherit; }
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
 
-button { cursor: pointer; }
+button {
+  cursor: pointer;
+}
 
-a { color: inherit; text-decoration: none; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 /* <address> is the correct element for the office address in the footer and
    on the contact page; the browser's default italic is not wanted there. */
-address { font-style: normal; }
+address {
+  font-style: normal;
+}
 
 body {
   font-family: var(--font-serif);
@@ -262,7 +314,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-serif);
   color: var(--ink);
   line-height: 1.12;
@@ -270,11 +325,19 @@ h1, h2, h3, h4 {
   letter-spacing: -0.005em;
 }
 
-h1 { font-size: clamp(2.5rem, 5.2vw, 3.9rem); }
-h2 { font-size: clamp(1.95rem, 3.4vw, 2.6rem); }
-h3 { font-size: 1.3rem; }
+h1 {
+  font-size: clamp(2.5rem, 5.2vw, 3.9rem);
+}
+h2 {
+  font-size: clamp(1.95rem, 3.4vw, 2.6rem);
+}
+h3 {
+  font-size: 1.3rem;
+}
 
-p { color: var(--ink-soft); }
+p {
+  color: var(--ink-soft);
+}
 
 /* Inline links inside running prose take the interactive blue and a real
    underline, set off the baseline rather than hugging it. */
@@ -284,8 +347,9 @@ p { color: var(--ink-soft); }
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
-.legal-content a:hover { color: var(--accent-strong); }
-
+.legal-content a:hover {
+  color: var(--accent-strong);
+}
 
 /* ==========================================================================
    3. ACCESSIBILITY HELPERS
@@ -294,8 +358,10 @@ p { color: var(--ink-soft); }
 /* Visually hide content but keep it available to screen readers */
 .sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
@@ -318,7 +384,9 @@ p { color: var(--ink-soft); }
   padding: 12px 20px;
   transition: top var(--transition);
 }
-.skip-link:focus { top: 16px; }
+.skip-link:focus {
+  top: 16px;
+}
 
 /* One focus ring for the whole site. Square, like everything else. */
 a:focus-visible,
@@ -341,7 +409,6 @@ textarea:focus-visible,
   outline-color: var(--focus-ring-invert);
 }
 
-
 /* ==========================================================================
    4. LAYOUT UTILITIES
    ========================================================================== */
@@ -352,24 +419,39 @@ textarea:focus-visible,
   padding-inline: 24px;
 }
 
-.section { padding-block: 88px; }
-.section-tight { padding-block: 64px; }
+.section {
+  padding-block: 88px;
+}
+.section-tight {
+  padding-block: 64px;
+}
 
 /* The three grounds. Class names are unchanged from the previous build so
    the markup did not have to be rewritten around them; what each one means
    has changed. "White" is now the page ground, "light" the banded one, and
    both of them follow the appearance the reader is in. */
-.section-white { background: var(--surface); }
-.section-light { background: var(--surface-alt); }
-.section-dark  { background: var(--surface-invert); }
+.section-white {
+  background: var(--surface);
+}
+.section-light {
+  background: var(--surface-alt);
+}
+.section-dark {
+  background: var(--surface-invert);
+}
 
 .section-dark h2,
-.section-dark h3 { color: var(--on-invert); }
-.section-dark p  { color: var(--on-invert-soft); }
+.section-dark h3 {
+  color: var(--on-invert);
+}
+.section-dark p {
+  color: var(--on-invert-soft);
+}
 
 /* Consecutive paper sections would run together without a seam. */
-.section-white + .section-white { border-top: 1px solid var(--rule); }
-
+.section-white + .section-white {
+  border-top: 1px solid var(--rule);
+}
 
 /* ==========================================================================
    5. SHARED TYPOGRAPHIC DEVICES
@@ -398,7 +480,7 @@ textarea:focus-visible,
   text-transform: uppercase;
 }
 
-/* Figures — prices, statistics, phone numbers — are set in the sans face
+/* Figures - prices, statistics, phone numbers - are set in the sans face
    with tabular figures so columns of them line up. */
 .product-price,
 .stat-number,
@@ -408,7 +490,6 @@ textarea:focus-visible,
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
 }
-
 
 /* ==========================================================================
    6. BUTTONS
@@ -423,7 +504,10 @@ textarea:focus-visible,
   padding: 15px 30px;
   font-size: 0.75rem;
   border: 1px solid transparent;
-  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    border-color var(--transition);
   white-space: nowrap;
 }
 
@@ -432,7 +516,10 @@ textarea:focus-visible,
   color: var(--on-fill);
   border-color: var(--fill);
 }
-.btn-primary:hover { background: var(--fill-hover); border-color: var(--fill-hover); }
+.btn-primary:hover {
+  background: var(--fill-hover);
+  border-color: var(--fill-hover);
+}
 
 .btn-secondary,
 .btn-outline-dark {
@@ -441,9 +528,14 @@ textarea:focus-visible,
   border-color: var(--ink);
 }
 .btn-secondary:hover,
-.btn-outline-dark:hover { background: var(--ink); color: var(--surface); }
+.btn-outline-dark:hover {
+  background: var(--ink);
+  color: var(--surface);
+}
 
-.btn-block { width: 100%; }
+.btn-block {
+  width: 100%;
+}
 
 /* Inside the navy CTA block the light/dark relationship inverts, and the
    filled button takes the sky blue rather than the page fill so it stays
@@ -468,7 +560,6 @@ textarea:focus-visible,
   border-color: var(--on-invert);
 }
 
-
 /* ==========================================================================
    7. NAVBAR
    A floating pill that the page scrolls underneath. The header keeps its
@@ -486,7 +577,9 @@ header {
   pointer-events: none;
 }
 .skip-link,
-.navbar-container { pointer-events: auto; }
+.navbar-container {
+  pointer-events: auto;
+}
 
 .navbar-container {
   position: relative;
@@ -545,7 +638,9 @@ header {
   color: var(--ink);
   flex-shrink: 0;
 }
-.logo-mark { flex-shrink: 0; }
+.logo-mark {
+  flex-shrink: 0;
+}
 /* The mark is a geometric letter "A" built from plain shapes - two legs and a
    crossbar - so the icon and the brand name are the same letterform.
 
@@ -561,10 +656,17 @@ header {
    apex, so a bar in the ground colour painted ground onto ground across the
    gap and merely notched the legs' inner edges, leaving the mark reading as a
    triangle rather than a letter. */
-.logo-mark-a-left  { fill: var(--accent); }
-.logo-mark-a-right { fill: var(--warm); }
+.logo-mark-a-left {
+  fill: var(--accent);
+}
+.logo-mark-a-right {
+  fill: var(--warm);
+}
 
-.navbar-brand-text { display: inline-block; line-height: 1.05; }
+.navbar-brand-text {
+  display: inline-block;
+  line-height: 1.05;
+}
 .navbar-brand-text small {
   display: block;
   font-family: var(--font-sans);
@@ -577,7 +679,9 @@ header {
 }
 /* "APEX" carries the weight of the wordmark; "MARKET" sits beside it as a
    lighter, letter-spaced descriptor rather than matching it stroke for stroke. */
-.brand-word-apex { font-weight: 600; }
+.brand-word-apex {
+  font-weight: 600;
+}
 .brand-word-market {
   font-weight: 400;
   font-size: 0.88em;
@@ -604,10 +708,14 @@ header {
   font-weight: 500;
   letter-spacing: 0.08em;
   color: var(--ink-mute);
-  transition: color var(--transition), background-color var(--transition);
+  transition:
+    color var(--transition),
+    background-color var(--transition);
 }
 .navbar-link:hover,
-.navbar-link:focus-visible { color: var(--ink); }
+.navbar-link:focus-visible {
+  color: var(--ink);
+}
 
 /* The current page is marked by tinting its own pill, not by animating a
    rule in from one side. */
@@ -632,17 +740,22 @@ header {
   color: var(--on-fill);
 }
 
-/* Theme switch (checkbox hack — no JavaScript).
+/* Theme switch (checkbox hack - no JavaScript).
    The input carries the accessible name and stays in the tab order; the
    label is the visible track, and the knob is its ::after. The knob's
    colour comes from a token; its position comes from the :has() rules
    below, so the control reports the current appearance without a line of
    script. ---------------------------------------------------------------- */
-.theme-switch-wrap { display: inline-flex; align-items: center; flex-shrink: 0; }
+.theme-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 
 .theme-switch-input {
   position: absolute;
-  width: 1px; height: 1px;
+  width: 1px;
+  height: 1px;
   margin: 0;
   opacity: 0;
   pointer-events: none;
@@ -661,7 +774,7 @@ header {
   cursor: pointer;
 }
 .theme-switch::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 3px;
   left: var(--knob-inset);
@@ -669,13 +782,15 @@ header {
   height: var(--knob-size);
   border-radius: 999px;
   background: var(--switch-knob);
-  transition: left 0.2s ease, background-color var(--transition);
+  transition:
+    left 0.2s ease,
+    background-color var(--transition);
 }
 
 /* The knob's travel mirrors the color-scheme rules at the top of this file
    exactly: right in the dark appearance, left in the light one. It cannot
    ride on a token the way its colour does, because light-dark() resolves
-   only <color> — a length inside it makes the whole declaration invalid and
+   only <color> - a length inside it makes the whole declaration invalid and
    the knob never leaves its start position. Measuring the offset from 100%
    keeps it symmetric when the mobile rules shrink the control.
    Gated on light-dark() so the fallback above keeps the promise it makes:
@@ -687,16 +802,22 @@ header {
   }
 
   @media (prefers-color-scheme: dark) {
-    .theme-switch::after { left: calc(100% - var(--knob-size) - var(--knob-inset)); }
-    :root:has(.theme-switch-input:checked) .theme-switch::after { left: var(--knob-inset); }
+    .theme-switch::after {
+      left: calc(100% - var(--knob-size) - var(--knob-inset));
+    }
+    :root:has(.theme-switch-input:checked) .theme-switch::after {
+      left: var(--knob-inset);
+    }
   }
 }
 
-/* Mobile toggle (checkbox hack — no JavaScript required).
+/* Mobile toggle (checkbox hack - no JavaScript required).
    The checkbox stays real and focusable so it is reachable by keyboard and
    announced by screen readers; the label beneath is decorative and only
    draws the three bars. Both are hidden on desktop. ---------------------- */
-.nav-toggle-input { display: none; }
+.nav-toggle-input {
+  display: none;
+}
 
 .nav-toggle-label {
   display: none;
@@ -712,9 +833,10 @@ header {
   height: 1.5px;
   margin-inline: auto;
   background: var(--ink);
-  transition: transform var(--transition), opacity var(--transition);
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
 }
-
 
 /* ==========================================================================
    8. HERO (home page)
@@ -752,7 +874,9 @@ header {
 /* The brand run inside the headline takes the accent colour flat. Clipping
    a gradient into text is the single most recognisable template flourish
    there is, so the accent is simply the accent. */
-.hero-title .accent { color: var(--warm); }
+.hero-title .accent {
+  color: var(--warm);
+}
 
 .hero-subtitle {
   color: var(--ink-soft);
@@ -827,7 +951,6 @@ header {
   color: var(--warm);
 }
 
-
 /* ==========================================================================
    9. SECTION HEADERS
    ========================================================================== */
@@ -835,7 +958,10 @@ header {
   max-width: 620px;
   margin-bottom: 52px;
 }
-.section-header.center { margin-inline: auto; text-align: center; }
+.section-header.center {
+  margin-inline: auto;
+  text-align: center;
+}
 
 .section-eyebrow {
   display: block;
@@ -843,15 +969,18 @@ header {
   color: var(--accent);
   margin-bottom: 14px;
 }
-.section-dark .section-eyebrow { color: var(--accent-on-invert); }
+.section-dark .section-eyebrow {
+  color: var(--accent-on-invert);
+}
 
-.section-title { margin-bottom: 14px; }
+.section-title {
+  margin-bottom: 14px;
+}
 
 .section-subtitle {
   color: var(--ink-soft);
   font-size: 1.1rem;
 }
-
 
 /* ==========================================================================
    10. PRODUCT GRID
@@ -945,9 +1074,14 @@ header {
   color: var(--ink-mute);
   border-bottom: 1px solid var(--rule);
   padding-bottom: 2px;
-  transition: color var(--transition), border-color var(--transition);
+  transition:
+    color var(--transition),
+    border-color var(--transition);
 }
-.product-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.product-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 
 .products-footer-action {
   margin-top: 56px;
@@ -956,11 +1090,10 @@ header {
   text-align: center;
 }
 
-
 /* ==========================================================================
    11. REASONS LIST ("Why APEX MARKET")
    Four claims in two columns, each opened by a rule. Previously these were
-   four bordered cards in a row, each with a tinted icon tile — the exact
+   four bordered cards in a row, each with a tinted icon tile - the exact
    shape every template ships with.
    ========================================================================== */
 .features-grid {
@@ -983,7 +1116,6 @@ header {
   font-size: 1rem;
   max-width: 44ch;
 }
-
 
 /* ==========================================================================
    12. NUMBERED PROCESS ("How it works")
@@ -1016,8 +1148,9 @@ header {
   font-size: 1.4rem;
   margin-bottom: 10px;
 }
-.process-text { font-size: 1rem; }
-
+.process-text {
+  font-size: 1rem;
+}
 
 /* ==========================================================================
    13. SPECIFICATION LIST
@@ -1054,7 +1187,6 @@ header {
   font-weight: 600;
 }
 
-
 /* ==========================================================================
    14. CTA BLOCK
    ========================================================================== */
@@ -1063,7 +1195,10 @@ header {
   padding: 72px 48px;
   text-align: center;
 }
-.cta-banner h2 { color: var(--on-invert); margin-bottom: 14px; }
+.cta-banner h2 {
+  color: var(--on-invert);
+  margin-bottom: 14px;
+}
 .cta-banner p {
   color: var(--on-invert-soft);
   max-width: 50ch;
@@ -1078,7 +1213,6 @@ header {
   flex-wrap: wrap;
 }
 
-
 /* ==========================================================================
    15. FOOTER
    ========================================================================== */
@@ -1090,8 +1224,12 @@ header {
 /* On the dark ground the legs take their standing-on-navy values, so the same
    SVG reads correctly on both surfaces. The crossbar needs no rule of its own
    here: it carries the leg classes, so these two lines already cover it. */
-.footer .logo-mark-a-left  { fill: var(--accent-on-invert); }
-.footer .logo-mark-a-right { fill: var(--warm-on-invert); }
+.footer .logo-mark-a-left {
+  fill: var(--accent-on-invert);
+}
+.footer .logo-mark-a-right {
+  fill: var(--warm-on-invert);
+}
 
 .footer-grid {
   display: grid;
@@ -1111,7 +1249,9 @@ header {
   color: var(--on-invert);
   margin-bottom: 18px;
 }
-.footer-brand .brand-word-market { color: var(--on-invert-soft); }
+.footer-brand .brand-word-market {
+  color: var(--on-invert-soft);
+}
 
 .footer-desc {
   color: var(--on-invert-soft);
@@ -1135,7 +1275,9 @@ header {
   color: var(--on-invert-soft);
   border-bottom: 1px solid var(--rule-invert);
   padding-bottom: 3px;
-  transition: color var(--transition), border-color var(--transition);
+  transition:
+    color var(--transition),
+    border-color var(--transition);
 }
 .footer-social-link:hover {
   color: var(--accent-on-invert);
@@ -1149,15 +1291,23 @@ header {
   margin-bottom: 22px;
 }
 
-.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .footer-link {
   color: var(--on-invert-soft);
   font-size: 1rem;
   width: fit-content;
   transition: color var(--transition);
 }
-.footer-link:hover { color: var(--accent-on-invert); }
-.footer-link[aria-current="page"] { color: var(--on-invert); }
+.footer-link:hover {
+  color: var(--accent-on-invert);
+}
+.footer-link[aria-current="page"] {
+  color: var(--on-invert);
+}
 
 .footer-contact-item {
   font-size: 1rem;
@@ -1165,8 +1315,12 @@ header {
   margin-bottom: 16px;
   max-width: 30ch;
 }
-.footer-contact-item a { transition: color var(--transition); }
-.footer-contact-item a:hover { color: var(--accent-on-invert); }
+.footer-contact-item a {
+  transition: color var(--transition);
+}
+.footer-contact-item a:hover {
+  color: var(--accent-on-invert);
+}
 
 .footer-bottom {
   display: flex;
@@ -1180,11 +1334,20 @@ header {
   letter-spacing: 0.04em;
   color: var(--on-invert-soft);
 }
-.footer-bottom p { color: inherit; font-family: inherit; }
-.footer-bottom-links { display: flex; gap: 24px; }
-.footer-bottom-links a { transition: color var(--transition); }
-.footer-bottom-links a:hover { color: var(--accent-on-invert); }
-
+.footer-bottom p {
+  color: inherit;
+  font-family: inherit;
+}
+.footer-bottom-links {
+  display: flex;
+  gap: 24px;
+}
+.footer-bottom-links a {
+  transition: color var(--transition);
+}
+.footer-bottom-links a:hover {
+  color: var(--accent-on-invert);
+}
 
 /* ==========================================================================
    16. ABOUT PAGE COMPONENTS
@@ -1230,8 +1393,13 @@ header {
   color: var(--warm);
   margin-bottom: 14px;
 }
-.mv-card h3 { font-size: 1.5rem; margin-bottom: 12px; }
-.mv-card p { font-size: 1.05rem; }
+.mv-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+.mv-card p {
+  font-size: 1.05rem;
+}
 
 .story-grid {
   display: grid;
@@ -1239,12 +1407,40 @@ header {
   gap: 56px;
   align-items: center;
 }
-.story-img-wrap { border: 1px solid var(--rule); }
-.story-img-wrap img { width: 100%; height: 440px; object-fit: cover; }
-.section-dark .story-img-wrap { border-color: var(--rule-invert); }
-.story-content h2 { margin-bottom: 18px; }
-.story-content p { margin-bottom: 16px; font-size: 1.05rem; }
-.story-content p:last-child { margin-bottom: 0; }
+.story-img-wrap {
+  border: 1px solid var(--rule);
+}
+.story-img-wrap img {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+}
+.section-dark .story-img-wrap {
+  border-color: var(--rule-invert);
+}
+.story-content h2 {
+  margin-bottom: 18px;
+}
+.story-content p {
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+/* The same trap as .contact-info-item above and .shop-grid below: :last-child
+   matches the last element among its siblings, not the last p. It is right
+   today only because the story column happens to end on a paragraph. Add a
+   pull quote, a byline or a "read more" after it and the final paragraph
+   quietly takes its 16px back.
+
+   :not(:has(~ p)) says what was meant: the paragraph with no paragraph after
+   it. Kept as a separate rule rather than folded into a selector list with the
+   line above, because CSS drops an entire list when any selector in it fails to
+   parse - the fuller note is on .shop-grid. */
+.story-content p:last-child {
+  margin-bottom: 0;
+}
+.story-content p:not(:has(~ p)) {
+  margin-bottom: 0;
+}
 
 .values-grid {
   display: grid;
@@ -1255,8 +1451,13 @@ header {
   border-top: 1px solid var(--rule);
   padding-top: 20px;
 }
-.value-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
-.value-card p { font-size: 0.98rem; }
+.value-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+.value-card p {
+  font-size: 0.98rem;
+}
 
 .stats-grid {
   display: grid;
@@ -1264,7 +1465,9 @@ header {
   gap: 32px;
 }
 /* Extra breathing room when the stats grid follows the team story block */
-.team-stats { margin-top: 72px; }
+.team-stats {
+  margin-top: 72px;
+}
 .stat-card {
   border-top: 1px solid var(--rule-invert);
   padding-top: 20px;
@@ -1283,7 +1486,6 @@ header {
   color: var(--on-invert-soft);
 }
 
-
 /* ==========================================================================
    17. CONTACT PAGE COMPONENTS
    ========================================================================== */
@@ -1299,13 +1501,17 @@ header {
   background: var(--surface-raised);
   padding: 40px;
 }
-.contact-form h2 { margin-bottom: 10px; }
-.contact-form > p { margin-bottom: 30px; }
+.contact-form h2 {
+  margin-bottom: 10px;
+}
+.contact-form > p {
+  margin-bottom: 30px;
+}
 
 /* The row spaces itself from what follows it. A grid item's margin adds to
    its track rather than collapsing into it, so while the fields inside did
    that spacing the gap below the row was really the leftover margin of
-   whichever field still had one — and it disappeared when the row stacked
+   whichever field still had one - and it disappeared when the row stacked
    into a single column. */
 .form-row {
   display: grid;
@@ -1314,16 +1520,22 @@ header {
   margin-bottom: 22px;
 }
 
-.form-group { margin-bottom: 22px; }
+.form-group {
+  margin-bottom: 22px;
+}
 /* Inside a row the gap does this, in both the two-column and the stacked
    arrangement. */
-.form-row .form-group { margin-bottom: 0; }
+.form-row .form-group {
+  margin-bottom: 0;
+}
 /* The full-width submit button carries its own space above it (see below),
    so the field it follows gives up its margin instead of adding to it.
    Keyed to the button rather than to position: the last child of these
-   forms is the button, and the last div is not always a field — on the
+   forms is the button, and the last div is not always a field - on the
    login form it is the "remember me" row, which has margins of its own. */
-.form-group:has(+ .btn-block) { margin-bottom: 0; }
+.form-group:has(+ .btn-block) {
+  margin-bottom: 0;
+}
 
 .form-label {
   display: block;
@@ -1335,7 +1547,10 @@ header {
   color: var(--ink);
   margin-bottom: 9px;
 }
-.form-label .required { color: var(--warm); margin-left: 2px; }
+.form-label .required {
+  color: var(--warm);
+  margin-left: 2px;
+}
 
 .form-input,
 .form-textarea {
@@ -1346,36 +1561,68 @@ header {
   font-family: var(--font-serif);
   font-size: 1.02rem;
   color: var(--ink);
-  transition: border-color var(--transition), background-color var(--transition);
+  transition:
+    border-color var(--transition),
+    background-color var(--transition);
 }
 .form-input::placeholder,
-.form-textarea::placeholder { color: var(--ink-mute); }
+.form-textarea::placeholder {
+  color: var(--ink-mute);
+}
 .form-input:focus,
 .form-textarea:focus {
   border-color: var(--accent);
   background: var(--surface);
   outline: none;
 }
-.form-textarea { resize: vertical; min-height: 150px; }
+.form-textarea {
+  resize: vertical;
+  min-height: 150px;
+}
 
 /* The contact form's submit button spans the form, so it needs a little
    more breathing room above it than a form-group's own margin gives. */
 .contact-form .btn-block,
-.auth-card .btn-block { margin-top: 28px; }
+.auth-card .btn-block {
+  margin-top: 28px;
+}
 
 .contact-info-card {
   background: var(--surface-invert);
   padding: 40px;
   margin-bottom: 28px;
 }
-.contact-info-card h2 { color: var(--on-invert); margin-bottom: 10px; }
-.contact-info-card > p { color: var(--on-invert-soft); margin-bottom: 30px; }
+.contact-info-card h2 {
+  color: var(--on-invert);
+  margin-bottom: 10px;
+}
+.contact-info-card > p {
+  color: var(--on-invert-soft);
+  margin-bottom: 30px;
+}
 
+/* A rule above every item except the first, expressed as "every item that has
+   an item before it" rather than as "all of them, minus the first one".
+
+   The subtraction form was .contact-info-item:first-of-type, and it did not
+   mean what it appeared to. :first-of-type matches the first div among its
+   siblings; the class plays no part in choosing which element it lands on. It
+   was right only because this card happens to open with an h2 and a p, neither
+   of which is a div. Wrap the items, or put a notice above them, and the first
+   item silently takes back a border and 18px of padding.
+
+   ~ rather than the :has() used on .shop-grid because the two shapes are not
+   the same. "All but the first" is a plain sibling combinator and needs nothing
+   modern; only "the last one" forces :has(), since CSS cannot look backwards.
+   This form also survives an element being inserted between two items, which
+   the adjacent + would not. */
 .contact-info-item {
-  padding-block: 18px;
+  padding-bottom: 18px;
+}
+.contact-info-item ~ .contact-info-item {
+  padding-top: 18px;
   border-top: 1px solid var(--rule-invert);
 }
-.contact-info-item:first-of-type { border-top: none; padding-top: 0; }
 
 .contact-info-label {
   display: block;
@@ -1390,7 +1637,9 @@ header {
   color: var(--on-invert);
   font-size: 1.05rem;
 }
-.contact-info-item a:hover { color: var(--accent-on-invert); }
+.contact-info-item a:hover {
+  color: var(--accent-on-invert);
+}
 
 /* The label sits inside the item too, so it has to win back its own size
    and colour from the rule above. */
@@ -1455,13 +1704,14 @@ header {
   color: var(--accent);
   border-bottom: 1px solid var(--rule);
   padding-bottom: 2px;
-  transition: color var(--transition), border-color var(--transition);
+  transition:
+    color var(--transition),
+    border-color var(--transition);
 }
 .map-caption a:hover {
   color: var(--accent-strong);
   border-bottom-color: var(--accent);
 }
-
 
 /* ==========================================================================
    18. LOGIN / AUTH PAGE COMPONENTS
@@ -1496,8 +1746,13 @@ header {
   padding-bottom: 26px;
   border-bottom: 1px solid var(--rule);
 }
-.auth-header h1 { font-size: 2rem; margin-bottom: 8px; }
-.auth-header p { font-size: 1rem; }
+.auth-header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+.auth-header p {
+  font-size: 1rem;
+}
 
 .form-check-row {
   display: flex;
@@ -1527,9 +1782,14 @@ header {
   font-size: 0.98rem;
   color: var(--accent);
   border-bottom: 1px solid var(--rule);
-  transition: border-color var(--transition), color var(--transition);
+  transition:
+    border-color var(--transition),
+    color var(--transition);
 }
-.form-forgot:hover { color: var(--accent-strong); border-bottom-color: var(--accent); }
+.form-forgot:hover {
+  color: var(--accent-strong);
+  border-bottom-color: var(--accent);
+}
 
 .auth-footer-note {
   text-align: center;
@@ -1550,8 +1810,9 @@ header {
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
-.auth-footer-note a:hover { color: var(--accent-strong); }
-
+.auth-footer-note a:hover {
+  color: var(--accent-strong);
+}
 
 /* ==========================================================================
    19. SHOP PAGE COMPONENTS
@@ -1560,9 +1821,17 @@ header {
   background: var(--surface-invert);
   padding-block: 76px;
 }
-.shop-hero-content { max-width: 640px; }
-.shop-hero h1 { color: var(--on-invert); margin-bottom: 16px; }
-.shop-hero p { color: var(--on-invert-soft); font-size: 1.16rem; }
+.shop-hero-content {
+  max-width: 640px;
+}
+.shop-hero h1 {
+  color: var(--on-invert);
+  margin-bottom: 16px;
+}
+.shop-hero p {
+  color: var(--on-invert-soft);
+  font-size: 1.16rem;
+}
 
 .category-chips {
   display: flex;
@@ -1578,7 +1847,10 @@ header {
   color: var(--on-invert-soft);
   font-size: 0.75rem;
   font-weight: 500;
-  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
 }
 .chip:hover {
   background: var(--accent-on-invert);
@@ -1586,7 +1858,9 @@ header {
   color: var(--navy-950);
 }
 
-.shop-grid-section { padding-block: 76px; }
+.shop-grid-section {
+  padding-block: 76px;
+}
 
 .shop-category-heading {
   display: flex;
@@ -1598,7 +1872,9 @@ header {
   border-bottom: 2px solid var(--accent);
   scroll-margin-top: calc(var(--header-height) + 16px);
 }
-.shop-category-heading h2 { font-size: 1.9rem; }
+.shop-category-heading h2 {
+  font-size: 1.9rem;
+}
 .shop-category-heading span {
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -1614,8 +1890,33 @@ header {
   gap: 36px 28px;
   margin-bottom: 72px;
 }
-.shop-grid:last-of-type { margin-bottom: 0; }
+/* The 72px above is the gap between a grid and the next category heading, so
+   the last grid has to give it back or the section ends on that 72 plus its
+   own 76px of padding.
 
+   :last-of-type is not what it looks like. It matches the last div among its
+   siblings, not the last .shop-grid - the class plays no part in choosing
+   which element it lands on. It is correct today only because the last grid
+   happens to also be the last thing inside .container. Put anything after it
+   - a pagination row, a load-more, a footnote about stock - and it silently
+   stops matching, the 72px comes back, and nothing in the markup says why.
+
+   :not(:has(~ .shop-grid)) says what was actually meant: the grid with no
+   grid after it. That holds however the section is added to later.
+
+   Both are kept, and they cannot be folded into one selector list, because
+   CSS drops an entire list when any selector in it fails to parse - pairing
+   them would take the fallback down in exactly the browsers that need it.
+   :has() is Chrome 105, Safari 15.4 and Firefox 121, so it is available
+   earlier than the light-dark() this stylesheet leans on throughout, bar one
+   Firefox version. A browser with neither falls back to :last-of-type and is
+   no worse off than it is today. */
+.shop-grid:last-of-type {
+  margin-bottom: 0;
+}
+.shop-grid:not(:has(~ .shop-grid)) {
+  margin-bottom: 0;
+}
 
 /* ==========================================================================
    20. LEGAL PAGES (privacy, terms)
@@ -1643,7 +1944,11 @@ header {
   padding-top: 20px;
   border-top: 1px solid var(--rule);
 }
-.legal-content h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+.legal-content h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
 
 .legal-content h3 {
   font-size: 1.22rem;
@@ -1651,7 +1956,9 @@ header {
   margin-bottom: 10px;
 }
 
-.legal-content p { margin-bottom: 18px; }
+.legal-content p {
+  margin-bottom: 18px;
+}
 
 .legal-content ul {
   list-style: none;
@@ -1667,7 +1974,7 @@ header {
 /* An en dash marks each item. A green tick would be a decoration
    pretending to be a verification. */
 .legal-content li::before {
-  content: '–';
+  content: "–";
   position: absolute;
   left: 0;
   color: var(--warm);
@@ -1679,7 +1986,6 @@ header {
   line-height: 1.7;
 }
 
-
 /* ==========================================================================
    21. RESPONSIVE MEDIA QUERIES
    ========================================================================== */
@@ -1687,52 +1993,97 @@ header {
 /* ---- Tablet ( <= 1024px ) --------------------------------------------- */
 @media (max-width: 1024px) {
   .product-grid,
-  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-  .values-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 28px;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 28px;
+  }
 
-  .features-grid { grid-template-columns: 1fr; }
-  .process-list { grid-template-columns: 1fr; gap: 32px; }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .process-list {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 
-  .hero-container { grid-template-columns: 1fr; gap: 48px; }
-  .hero-title { max-width: 18ch; }
-  .hero-visual { justify-content: flex-start; }
-  .hero-spotlight-card { max-width: 100%; }
-  .hero-spotlight-card img { height: 380px; }
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .hero-title {
+    max-width: 18ch;
+  }
+  .hero-visual {
+    justify-content: flex-start;
+  }
+  .hero-spotlight-card {
+    max-width: 100%;
+  }
+  .hero-spotlight-card img {
+    height: 380px;
+  }
 
   .story-grid,
   .mv-grid,
-  .contact-layout { grid-template-columns: 1fr; }
-  .story-grid { gap: 32px; }
-  .story-img-wrap img { height: 340px; }
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+  .story-grid {
+    gap: 32px;
+  }
+  .story-img-wrap img {
+    height: 340px;
+  }
 
-  .spec-row { grid-template-columns: 200px 1fr; gap: 24px; }
+  .spec-row {
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+  }
 
-  .footer-grid { grid-template-columns: 1fr 1fr; row-gap: 44px; }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 44px;
+  }
 }
 
 /* ---- Mobile ( <= 720px ) -----------------------------------------------
    The pill keeps the brand, the theme switch and the menu button; the
    links drop into a second pill below it, drawn from the same glass. ---- */
 @media (max-width: 720px) {
-  /* The header shrinks here — 12px padding, a 58px pill, 12px again — so the
+  /* The header shrinks here - 12px padding, a 58px pill, 12px again - so the
      90px declared at the top of the file is 8px too tall from this width
      down. The token feeds scroll-padding-top and the auth page's min-height,
      so leaving it stale made every anchor jump overshoot by exactly that
      much. Redeclared rather than recalculated, to keep it greppable. */
-  :root { --header-height: 82px; }   /* 12px + 58px pill + 12px */
+  :root {
+    --header-height: 82px;
+  } /* 12px + 58px pill + 12px */
 
-  .section { padding-block: 64px; }
+  .section {
+    padding-block: 64px;
+  }
 
-  header { padding: 12px 16px; }
+  header {
+    padding: 12px 16px;
+  }
   /* 16px of header padding, plus the pill's 1px border, plus 7px inside it
      puts the logo on 24px, which is where .container's padding-inline puts
      every heading and paragraph on this breakpoint. Below 720px the container
      spans the full viewport, so that sum is the alignment and it is exact
      here - unlike the desktop rule above, which can only be exact on one
      side of 1248px. */
-  .navbar-container { height: 58px; padding: 0 8px 0 7px; }
+  .navbar-container {
+    height: 58px;
+    padding: 0 8px 0 7px;
+  }
 
   .navbar-menu {
     position: absolute;
@@ -1759,9 +2110,12 @@ header {
        visibility takes them out of the tree. It animates in discrete steps
        that hold the old value for the whole duration, so naming it here
        keeps the panel on screen while it collapses and hides it only once
-       that has finished — on the way open it applies at once. */
+       that has finished - on the way open it applies at once. */
     visibility: hidden;
-    transition: max-height 0.3s ease, opacity 0.2s ease, visibility 0.3s;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.2s ease,
+      visibility 0.3s;
   }
   .nav-toggle-input:checked ~ .navbar-menu {
     max-height: 340px;
@@ -1771,8 +2125,14 @@ header {
     border-color: var(--glass-edge);
     box-shadow: 0 18px 40px -18px var(--glass-shadow);
   }
-  .navbar-menu li { width: 100%; }
-  .navbar-link { padding: 14px 18px; border-radius: 18px; width: 100%; }
+  .navbar-menu li {
+    width: 100%;
+  }
+  .navbar-link {
+    padding: 14px 18px;
+    border-radius: 18px;
+    width: 100%;
+  }
   .navbar-link-cta {
     width: 100%;
     margin: 8px 0 2px;
@@ -1785,7 +2145,11 @@ header {
     right: 56px;
     transform: translateY(-50%);
   }
-  .theme-switch { width: 44px; height: 26px; --knob-size: 18px; }
+  .theme-switch {
+    width: 44px;
+    height: 26px;
+    --knob-size: 18px;
+  }
 
   .nav-toggle-input {
     display: block;
@@ -1809,50 +2173,89 @@ header {
     pointer-events: none;
     z-index: 10;
   }
-  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(2) { opacity: 0; }
-  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle-input:checked ~ .nav-toggle-label .bar:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
 
   .product-grid,
   .shop-grid,
   .values-grid,
-  .stats-grid { grid-template-columns: 1fr; }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 
-  .hero-section { padding-block: 48px 64px; }
-  .hero-title { max-width: none; }
-  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-section {
+    padding-block: 48px 64px;
+  }
+  .hero-title {
+    max-width: none;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
   .hero-trust-item {
     padding-right: 14px;
     margin-right: 14px;
     margin-bottom: 8px;
   }
 
-  .spec-row { grid-template-columns: 1fr; gap: 8px; }
+  .spec-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 
-  .form-row { grid-template-columns: 1fr; }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 
-  .shop-category-heading { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .shop-category-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
 
   .contact-form,
-  .contact-info-card { padding: 28px 22px; }
+  .contact-info-card {
+    padding: 28px 22px;
+  }
 
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-  .cta-banner { padding: 48px 24px; }
+  .cta-banner {
+    padding: 48px 24px;
+  }
 
-  .auth-card { padding: 34px 26px; }
+  .auth-card {
+    padding: 34px 26px;
+  }
 }
 
 /* The brand descriptor and the wordmark's second word are the first things
    to go when the pill runs out of room. */
 @media (max-width: 420px) {
-  .navbar-brand-text small { display: none; }
-  .navbar-brand { font-size: 1.2rem; }
+  .navbar-brand-text small {
+    display: none;
+  }
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
 }
 
 /* The theme switch is pinned 100px in from the pill's right edge to clear
-   the menu button, and the brand does not shrink — it is a wordmark, not a
+   the menu button, and the brand does not shrink - it is a wordmark, not a
    sentence, so it cannot negotiate for that space and would simply cross
    into the switch. Full wordmark plus mark is about 179px, and the room
    left for it is the viewport less 154px of chrome, so the two collide
@@ -1860,9 +2263,10 @@ header {
    note above has always promised: "APEX" beside the mark still reads as the
    brand, and a switch sitting on top of the "T" does not. */
 @media (max-width: 340px) {
-  .brand-word-market { display: none; }
+  .brand-word-market {
+    display: none;
+  }
 }
-
 
 /* ==========================================================================
    22. REDUCED MOTION
@@ -1870,8 +2274,12 @@ header {
    very little left to suppress, which is itself the point.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
