@@ -99,12 +99,11 @@
       <div class="container">
         <div class="contact-layout">
 
-          <!-- Contact form: HTML only, no backend, submissions are
-               illustrative. novalidate has gone: with no script anywhere in
-               this project the browser's own required-field checking is the
-               only feedback the form can give, and switching it off left the
-               required attributes below doing nothing at all. -->
-          <form class="contact-form" action="#" method="post">
+          <!-- Contact form posts to Formspree, so it works without any
+               JavaScript. Kept the browser's own required-field checking
+               (no novalidate) since that is the only client-side feedback
+               on a site with no script. -->
+          <form class="contact-form" action="https://formspree.io/f/mgawggyo" method="post">
             <h2 id="contact-heading">Send Us a Message</h2>
             <p>Fill in the form below, or reach the support desk directly by phone, email or WhatsApp. We answer Monday to Saturday, 8:00 AM to 7:00 PM (WAT), and messages left outside those hours are picked up the next working morning.</p>
 
