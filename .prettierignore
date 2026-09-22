@@ -1,0 +1,17 @@
+# Prettier must not touch this project.
+#
+# Every file here is hand-formatted, and the formatting carries meaning: the
+# HTML is indented two spaces with attributes kept on one line so a tag reads
+# as a single thought, and style.css is ordered and commented as prose for a
+# reader rather than grouped the way a tool would group it.
+#
+# Left to itself, the editor's Prettier reformatted shop.html and terms.html on
+# save - lowercasing <!doctype html>, self-closing void elements, switching to
+# four-space indent and wrapping attributes at 80 columns. That was about 1,540
+# changed lines across two files, none of them a change anyone asked for, and it
+# buried the real diff. There is no Prettier config in this repo, so the setting
+# driving it belongs to the editor; this file is what stops it at the door.
+#
+# Ignoring everything is deliberate. An allowlist would quietly start
+# reformatting whatever gets added next.
+*
