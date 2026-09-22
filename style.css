@@ -402,6 +402,15 @@ textarea:focus-visible,
   font-feature-settings: "tnum" 1;
 }
 
+/* Font Awesome icons sit inline with their label and take its colour */
+.footer-social-link i,
+.hero-trust-item i,
+.feature-title i,
+.contact-info-label i {
+  margin-right: 4px;
+  font-size: 0.95em;
+}
+
 /* ==========================================================================
    6. BUTTONS
    ========================================================================== */
