@@ -21,9 +21,8 @@ $RECYCLE.BIN/
 *.swo
 *~
 
-# Machine-local Claude Code state: which tool permissions this particular
-# computer has granted. .claude/launch.json is deliberately NOT ignored - it
-# is how the preview server gets started, which is a fact about the project
-# rather than about one machine.
-.claude/settings.local.json
-.claude/settings.local.json.backup
+# Claude Code's folder, all of it. The granted tool permissions are a fact
+# about one computer, and launch.json only describes how to serve the site for
+# preview - the site is static files with no build step, so nothing here
+# depends on it. The folder stays on disk; it just does not belong in history.
+.claude/
