@@ -1,7 +1,4 @@
-# Nothing in this project is compiled, bundled or installed, so there is no
-# build output, lockfile or dependency folder to keep out. What is left is the
-# debris that the operating system, the sync client and editors leave lying
-# next to the source.
+# OS, editor and tooling files - no build output since the site is static.
 
 # Windows and OneDrive
 Thumbs.db
@@ -21,8 +18,5 @@ $RECYCLE.BIN/
 *.swo
 *~
 
-# Claude Code's folder, all of it. The granted tool permissions are a fact
-# about one computer, and launch.json only describes how to serve the site for
-# preview - the site is static files with no build step, so nothing here
-# depends on it. The folder stays on disk; it just does not belong in history.
+# Claude Code (editor tooling, local to this machine)
 .claude/

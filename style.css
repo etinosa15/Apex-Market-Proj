@@ -1,34 +1,11 @@
 /* ==========================================================================
    APEX MARKET - MAIN STYLESHEET
    ==========================================================================
-   A print-catalogue treatment of an online marketplace, now in two
-   appearances. Plain HTML and CSS: there is no JavaScript anywhere in this
-   project, including the navigation menu and the light/dark switch.
+   Warm paper + navy + clay theme. HTML and CSS only, no JavaScript - the
+   mobile menu and the light/dark switch both use the checkbox hack.
 
-   The house rules this file follows, and the reasoning behind each:
-
-   · Two appearances, one set of tokens. Every colour is written once, as
-     light-dark(light value, dark value), and read from :root. The page
-     follows the operating system by default; the switch in the navbar
-     flips it to the opposite using :has(), with no script and no storage,
-     which is why the choice lasts for the page rather than the visit.
-   · Colour carries meaning, not decoration. Blue is interactive - links,
-     eyebrows, focus, form states. Clay and gold mark money and figures.
-     Navy is structure. Nothing is coloured only to be colourful, which is
-     the difference between a palette and a rainbow.
-   · Flat colour. No gradients, no radial "glow" blooms, no glowing
-     shadows. Depth comes from hairline rules and from bands of background
-     colour, the way it does on a printed page.
-   · Square corners, with one deliberate exception: the navigation bar is a
-     floating translucent pill. It is the only full radius and the only
-     backdrop blur in the file, and it sits on the control surface rather
-     than in the content.
-   · Two typefaces, no monospace. EB Garamond carries headings and body;
-     Libre Franklin (a Franklin Gothic revival) carries labels, buttons and
-     figures. A coder's monospace on a shopping price is costume.
-   · Hover changes colour, never geometry. Nothing lifts, scales or floats.
-   · Never #ffffff, never #000000. Paper has a temperature, and so does a
-     dark room.
+   Colours are set once as light-dark() custom properties on :root, so the
+   whole site follows the system theme and the navbar switch can flip it.
 
    TABLE OF CONTENTS
    1.  Design Tokens (palette, light/dark theme, type, layout)
@@ -59,28 +36,11 @@
    1. DESIGN TOKENS
    ========================================================================== */
 :root {
-  /* --- Raw palette -------------------------------------------------------
-     Two families. The blue family is the brand's own, carried over from
-     the earlier build of this site; the warm family is the paper and clay
-     this version introduced. Light uses warm ground with blue and clay
-     marks; dark uses the blue family's deepest navy as the ground, so the
-     two appearances are the same palette seen from opposite ends.
-
-     Only the two names below survive here. The other sixteen were declared
-     and then never read: every semantic token underneath wrote the same hex
-     out longhand instead of pointing at them, so editing --sky-700 changed
-     precisely nothing on screen. A palette that does not drive anything is
-     worse than no palette, because the next person to edit it believes it
-     does. The semantic tokens are the source of truth now.   --- */
-
+  /* --- Raw palette --- */
   --navy-900: #0a1b33;
   --navy-950: #04101f;
 
-  /* --- Theme -------------------------------------------------------------
-     color-scheme: light dark tells the browser to follow the system for
-     form controls and scrollbars, and it is also what light-dark() reads
-     to decide which of its two values to return. Flipping that one
-     property (see the switch rules below) flips every token at once. --- */
+  /* Follow the system theme for form controls, scrollbars and light-dark() */
   color-scheme: light dark;
 
   /* Grounds */
@@ -98,8 +58,7 @@
   --ink-soft: light-dark(#3d5573, #b9cce4); /* body copy               */
   --ink-mute: light-dark(#4d6785, #8aa3c2); /* meta, captions, labels  */
 
-  /* Ink on the inverted grounds. These read on navy in either appearance,
-     so they are the same in both and are written without light-dark(). */
+  /* Ink on the navy grounds - same in both themes */
   --on-invert: #f4f9ff;
   --on-invert-soft: #c6d7ec;
 
@@ -107,8 +66,7 @@
   --rule: light-dark(#d8d0be, rgba(148, 183, 224, 0.22));
   --rule-invert: rgba(244, 249, 255, 0.16);
 
-  /* Accents. Blue is the interactive colour; clay and gold are the
-     commercial ones - prices, figures, numerals. */
+  /* Accents - blue for links, clay/gold for prices and figures */
   --accent: light-dark(#0f5fc0, #8fcaff);
   --accent-strong: light-dark(#0a4691, #cfe6ff);
   --accent-on-invert: #8fcaff;
@@ -121,26 +79,12 @@
   --fill-hover: light-dark(#12294a, #55b1ff);
   --on-fill: light-dark(#f5f1e9, #04101f);
 
-  /* Catalogue badge - clay with light type by day, gold with dark type by
-     night, because a gold chip needs dark type to stay readable. */
+  /* Catalogue badge */
   --badge-bg: light-dark(#96461f, #ffb020);
   --badge-ink: light-dark(#f9f6f0, #04101f);
 
-  /* Glass, used by the navbar pill only (the mobile panel below takes an
-     opaque --surface-raised and borrows nothing but this edge and shadow).
-     The page scrolls underneath the pill, so whatever is behind it at any
-     moment sets the real contrast of the nav text.
-
-     0.88 was already an improvement on the 0.62 this started at, but it
-     still let 12% of the backdrop through, and 12% of a white product
-     photo is enough to matter: the muted nav ink composited to 4.30:1 in
-     the dark appearance and 4.16:1 in the light one, both under the 4.5:1
-     that 12px text needs. 0.94 cuts the bleed to 6% and carries every
-     on-glass colour - muted ink, the brand descriptor, and the accent on
-     the current page's pill - clear of 4.5:1 against a pure white or
-     pure black backdrop, which is the worst case there is rather than a
-     likely one. The blur and the saturate both survive; they are simply
-     doing their work through a narrower opening. */
+  /* Glass for the navbar pill. 0.94 opacity keeps the nav text readable
+     over whatever scrolls behind it (contrast stays above 4.5:1). */
   --glass: light-dark(rgba(250, 247, 240, 0.94), rgba(13, 34, 60, 0.94));
   --glass-edge: light-dark(rgba(255, 252, 246, 0.8), rgba(143, 202, 255, 0.2));
   --glass-sheen: light-dark(
@@ -150,10 +94,7 @@
   --glass-shadow: light-dark(rgba(10, 27, 51, 0.22), rgba(0, 0, 0, 0.55));
   --nav-active: light-dark(rgba(15, 95, 192, 0.12), rgba(143, 202, 255, 0.16));
 
-  /* Theme switch: the knob sits left in the light appearance and right in
-     the dark one. Its colour is a token like any other; its position is not
-     - light-dark() resolves only <color>, so the offset is set by the same
-     :has() rules that drive color-scheme (see below the switch styles). */
+  /* Theme switch colours (the knob position is set in the switch styles) */
   --switch-track: light-dark(rgba(10, 27, 51, 0.1), rgba(143, 202, 255, 0.16));
   --switch-knob: light-dark(#96461f, #dcecff);
 
@@ -161,36 +102,19 @@
   --focus-ring: light-dark(#0f5fc0, #8fcaff);
   --focus-ring-invert: #8fcaff;
 
-  /* --- Typography --------------------------------------------------------
-     EB Garamond does the reading; Libre Franklin does the labelling.
-     Nothing else. Weight, size and tracking carry the hierarchy that a
-     third or fourth family would otherwise be hired to carry.
-
-     Nothing in this file sits below 0.75rem / 12px. Twenty-four rules
-     used to, most of them at 0.70rem, and the ones that hurt were the
-     tracked uppercase labels: letter-spacing pulls the strokes apart at
-     exactly the size they can least afford it, and a 0.22em descriptor
-     at 11px is a row of initials rather than a word. The floor is a
-     floor, not a suggestion. Weight and tracking already carry the
-     hierarchy those missing pixels were being asked to carry, so the
-     whole cost of the change is a few pixels of label width.        --- */
+  /* --- Typography: EB Garamond for reading, Libre Franklin for labels --- */
   --font-serif: "EB Garamond", Garamond, Georgia, serif;
   --font-sans: "Libre Franklin", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  /* --- Motion ------------------------------------------------------------
-     One duration, one easing, colour properties only.                 --- */
+  /* --- Motion --- */
   --transition: 0.15s ease;
 
-  /* --- Layout ------------------------------------------------------------*/
+  /* --- Layout --- */
   --container-width: 1200px;
   --header-height: 90px; /* 14px + 62px pill + 14px */
 }
 
-/* The manual override. Unchecked, the page follows the system; checked, it
-   takes the opposite appearance - which is the only behaviour a single
-   checkbox can offer, and the only one anybody actually wants from it.
-   Written against :root rather than body so the browser canvas, the
-   scrollbars and the form controls change with the rest. */
+/* Switch checked = flip to the opposite of the system theme */
 :root:has(.theme-switch-input:checked) {
   color-scheme: dark;
 }
@@ -201,10 +125,7 @@
   }
 }
 
-/* Browsers without light-dark() would otherwise get no colour at all, so
-   the light appearance is restored here as plain values. Anything this old
-   does not support :has() either, which is exactly right: it gets the
-   light page with no switch rather than a broken one. */
+/* Fallback for browsers without light-dark(): plain light-theme values */
 @supports not (color: light-dark(#000, #fff)) {
   :root {
     --surface: #f5f1e9;
@@ -265,10 +186,8 @@ ol {
   margin: 0;
 }
 
-/* Removing the bullets is a design decision; losing the list is not. Safari
-   with VoiceOver stops announcing "list, 4 items" once list-style is none,
-   so every <ul> carrying a class here also carries role="list" in the HTML
-   to put the semantics back. */
+/* Strip bullets on styled lists. The markup keeps role="list" so Safari +
+   VoiceOver still announces them as lists. */
 ul[class],
 ol[class] {
   list-style: none;
@@ -299,8 +218,7 @@ a {
   text-decoration: none;
 }
 
-/* <address> is the correct element for the office address in the footer and
-   on the contact page; the browser's default italic is not wanted there. */
+/* Used for the footer and contact addresses - drop the default italic */
 address {
   font-style: normal;
 }
@@ -339,8 +257,7 @@ p {
   color: var(--ink-soft);
 }
 
-/* Inline links inside running prose take the interactive blue and a real
-   underline, set off the baseline rather than hugging it. */
+/* Underlined blue links inside body copy */
 .legal-content a {
   color: var(--accent);
   text-decoration: underline;
@@ -388,7 +305,7 @@ p {
   top: 16px;
 }
 
-/* One focus ring for the whole site. Square, like everything else. */
+/* Shared focus ring */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -399,7 +316,7 @@ textarea:focus-visible,
   outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
-/* On navy grounds the page ring can be too dark; the sky blue is not. */
+/* Lighter ring on the navy sections */
 .section-dark a:focus-visible,
 .cta-banner a:focus-visible,
 .footer a:focus-visible,
@@ -426,10 +343,7 @@ textarea:focus-visible,
   padding-block: 64px;
 }
 
-/* The three grounds. Class names are unchanged from the previous build so
-   the markup did not have to be rewritten around them; what each one means
-   has changed. "White" is now the page ground, "light" the banded one, and
-   both of them follow the appearance the reader is in. */
+/* Section background variants */
 .section-white {
   background: var(--surface);
 }
@@ -448,16 +362,14 @@ textarea:focus-visible,
   color: var(--on-invert-soft);
 }
 
-/* Consecutive paper sections would run together without a seam. */
+/* Divider between two same-colour sections */
 .section-white + .section-white {
   border-top: 1px solid var(--rule);
 }
 
 /* ==========================================================================
    5. SHARED TYPOGRAPHIC DEVICES
-   Small tracked capitals in the sans face are the workhorse label of this
-   design: they mark eyebrows, categories, table terms and figure captions.
-   Every one of them is this same specimen at a different colour.
+   Small tracked uppercase labels, reused for eyebrows, categories, etc.
    ========================================================================== */
 .hero-eyebrow,
 .section-eyebrow,
@@ -480,8 +392,7 @@ textarea:focus-visible,
   text-transform: uppercase;
 }
 
-/* Figures - prices, statistics, phone numbers - are set in the sans face
-   with tabular figures so columns of them line up. */
+/* Prices and figures: sans face with tabular numerals so they line up */
 .product-price,
 .stat-number,
 .process-number,
@@ -493,9 +404,6 @@ textarea:focus-visible,
 
 /* ==========================================================================
    6. BUTTONS
-   Square, bordered, tracked capitals. The primary is a filled block of
-   ink by day and of brand blue by night; the secondary is the same block
-   drawn as an outline.
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -537,9 +445,7 @@ textarea:focus-visible,
   width: 100%;
 }
 
-/* Inside the navy CTA block the light/dark relationship inverts, and the
-   filled button takes the sky blue rather than the page fill so it stays
-   the brightest thing in the block in either appearance. */
+/* On the navy CTA block the primary button uses the sky blue accent */
 .cta-banner .btn-primary {
   background: var(--accent-on-invert);
   color: var(--navy-950);
@@ -562,18 +468,14 @@ textarea:focus-visible,
 
 /* ==========================================================================
    7. NAVBAR
-   A floating pill that the page scrolls underneath. The header keeps its
-   height in the flow, so nothing hides behind the bar, and it passes
-   pointer events through everywhere except the pill itself.
+   Floating pill that the page scrolls underneath.
    ========================================================================== */
 header {
   position: sticky;
   top: 0;
   z-index: 500;
   padding: 14px 24px;
-  /* The header keeps its full width so the pill can centre inside it, but
-     only the pill and the skip link should catch the pointer; everywhere
-     else the page underneath stays clickable. */
+  /* Let clicks through the header everywhere except the pill (see below) */
   pointer-events: none;
 }
 .skip-link,
@@ -587,31 +489,8 @@ header {
   max-width: var(--container-width);
   margin-inline: auto;
   height: 62px;
-  /* The left padding is 24px because .container's padding-inline is 24px, and
-     that is the whole reason for the number.
-
-     Once the viewport is at least 1248px the pill's left edge and .container's
-     left edge are the same x: the pill is 1200px centred inside a header whose
-     content box is vw-48, which puts it at 24 + (vw-48-1200)/2, and that
-     reduces to (vw-1200)/2, which is exactly where the 1200px container
-     starts. Two boxes with the same left edge need the same inside padding for
-     their contents to line up, so the logo now sits on the same vertical as
-     every headline and paragraph below it. At 18px it sat 6px to their left.
-
-     Between 721px and 1247px the two edges genuinely diverge - the pill is
-     inset 24px by the header's padding while the container spans the full
-     width and holds its 24px inside - so in that band the logo is 24px right
-     of the text. Padding alone cannot close both cases, and the alternatives
-     both cost more than the misalignment: dropping the header's inline
-     padding lets the pill run to the screen edge, and shrinking the pill to
-     1152px fixes the edges only by putting the logo hard against its border.
-     The 1200px layout is drawn for wide screens, so the wide case is the one
-     that gets to be exact.
-
-     23 and not 24 because the pill has a 1px border and .container does not.
-     Padding is measured from inside the border, so 24px here would land the
-     logo one pixel past the text it is lining up with. Measured: 5.2px out
-     before, 0.8px out at 24px, 0 at 23px. */
+  /* 23px left padding (not 24) lines the logo up with .container's 24px,
+     allowing for the pill's 1px border */
   padding: 0 10px 0 23px;
   display: flex;
   align-items: center;
@@ -641,21 +520,8 @@ header {
 .logo-mark {
   flex-shrink: 0;
 }
-/* The mark is a geometric letter "A" built from plain shapes - two legs and a
-   crossbar - so the icon and the brand name are the same letterform.
-
-   The crossbar carries the leg classes rather than one of its own. It is drawn
-   as two rects, each continuing its own leg's colour, so it cannot drift from
-   the legs in any context: the footer's inverted fills below apply to it for
-   free, and no third rule is needed anywhere.
-
-   It used to be cut in the ground colour instead of painted, which meant it
-   had to be told which ground it was sitting on, and that cost a rule here for
-   --surface, one in the footer for --surface-invert-deep and one in the auth
-   card for --surface-raised. It also did not work: the legs only meet at the
-   apex, so a bar in the ground colour painted ground onto ground across the
-   gap and merely notched the legs' inner edges, leaving the mark reading as a
-   triangle rather than a letter. */
+/* The "A" logo is two coloured legs plus a crossbar. The crossbar reuses the
+   leg classes so it always matches their colour, including in the footer. */
 .logo-mark-a-left {
   fill: var(--accent);
 }
@@ -677,8 +543,7 @@ header {
   color: var(--ink-mute);
   margin-top: 6px;
 }
-/* "APEX" carries the weight of the wordmark; "MARKET" sits beside it as a
-   lighter, letter-spaced descriptor rather than matching it stroke for stroke. */
+/* "APEX" is the heavy word; "MARKET" is a lighter tracked descriptor */
 .brand-word-apex {
   font-weight: 600;
 }
@@ -717,8 +582,7 @@ header {
   color: var(--ink);
 }
 
-/* The current page is marked by tinting its own pill, not by animating a
-   rule in from one side. */
+/* Current page gets a tinted pill */
 .navbar-link[aria-current="page"] {
   color: var(--accent);
   background: var(--nav-active);
@@ -740,12 +604,8 @@ header {
   color: var(--on-fill);
 }
 
-/* Theme switch (checkbox hack - no JavaScript).
-   The input carries the accessible name and stays in the tab order; the
-   label is the visible track, and the knob is its ::after. The knob's
-   colour comes from a token; its position comes from the :has() rules
-   below, so the control reports the current appearance without a line of
-   script. ---------------------------------------------------------------- */
+/* Theme switch (checkbox hack, no JS). The hidden input is the real,
+   focusable control; the label is the track and the knob is its ::after. */
 .theme-switch-wrap {
   display: inline-flex;
   align-items: center;
@@ -787,15 +647,9 @@ header {
     background-color var(--transition);
 }
 
-/* The knob's travel mirrors the color-scheme rules at the top of this file
-   exactly: right in the dark appearance, left in the light one. It cannot
-   ride on a token the way its colour does, because light-dark() resolves
-   only <color> - a length inside it makes the whole declaration invalid and
-   the knob never leaves its start position. Measuring the offset from 100%
-   keeps it symmetric when the mobile rules shrink the control.
-   Gated on light-dark() so the fallback above keeps the promise it makes:
-   where the colours cannot invert, the knob stays where it started rather
-   than sliding across a page that never changed appearance. */
+/* Knob position: right in dark, left in light, mirroring the color-scheme
+   rules above. It can't be a token because light-dark() only takes colours.
+   Gated on light-dark() so the fallback theme leaves the knob put. */
 @supports (color: light-dark(#000, #fff)) {
   :root:has(.theme-switch-input:checked) .theme-switch::after {
     left: calc(100% - var(--knob-size) - var(--knob-inset));
@@ -811,10 +665,8 @@ header {
   }
 }
 
-/* Mobile toggle (checkbox hack - no JavaScript required).
-   The checkbox stays real and focusable so it is reachable by keyboard and
-   announced by screen readers; the label beneath is decorative and only
-   draws the three bars. Both are hidden on desktop. ---------------------- */
+/* Mobile menu toggle (checkbox hack, no JS). Real focusable checkbox plus a
+   label that draws the three bars. Both hidden on desktop. */
 .nav-toggle-input {
   display: none;
 }
@@ -857,7 +709,7 @@ header {
   align-items: center;
 }
 
-/* Eyebrow: a tracked label sitting on a short rule, not a coloured pill. */
+/* Eyebrow label on a short underline */
 .hero-eyebrow {
   display: block;
   font-size: 0.75rem;
@@ -871,9 +723,7 @@ header {
   margin-bottom: 22px;
   max-width: 14ch;
 }
-/* The brand run inside the headline takes the accent colour flat. Clipping
-   a gradient into text is the single most recognisable template flourish
-   there is, so the accent is simply the accent. */
+/* Accent word in the headline */
 .hero-title .accent {
   color: var(--warm);
 }
@@ -892,8 +742,7 @@ header {
   margin-bottom: 40px;
 }
 
-/* Trust marks set as a rule-separated row of tracked capitals rather than
-   an icon beside each claim. */
+/* Trust marks: a row of tracked capitals separated by rules */
 .hero-trust {
   display: flex;
   flex-wrap: wrap;
@@ -917,8 +766,7 @@ header {
   border-right: none;
 }
 
-/* Hero visual: one product, squared off, with a plain caption beneath it
-   instead of a frosted tag floating over the image. ---------------------- */
+/* Hero visual: one product image with a caption below it */
 .hero-visual {
   display: flex;
   justify-content: flex-end;
@@ -984,9 +832,6 @@ header {
 
 /* ==========================================================================
    10. PRODUCT GRID
-   Catalogue entries, not cards: no border box, no shadow, no lift. A rule
-   across the top of each column does the separating, the way a printed
-   price list would.
    ========================================================================== */
 .product-grid {
   display: grid;
@@ -1064,7 +909,7 @@ header {
   color: var(--warm);
 }
 
-/* A text link with a rule under it, not an outlined chip with an arrow. */
+/* Underlined text link */
 .product-link {
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -1092,9 +937,6 @@ header {
 
 /* ==========================================================================
    11. REASONS LIST ("Why APEX MARKET")
-   Four claims in two columns, each opened by a rule. Previously these were
-   four bordered cards in a row, each with a tinted icon tile - the exact
-   shape every template ships with.
    ========================================================================== */
 .features-grid {
   display: grid;
@@ -1119,10 +961,6 @@ header {
 
 /* ==========================================================================
    12. NUMBERED PROCESS ("How it works")
-   A genuine ordered sequence, so it keeps its three columns. The numerals
-   are set large and solid rather than outlined in a stroke colour, and the
-   rule that opens each step is the interactive blue: this is the one block
-   on the page that describes an action.
    ========================================================================== */
 .process-list {
   display: grid;
@@ -1154,10 +992,7 @@ header {
 
 /* ==========================================================================
    13. SPECIFICATION LIST
-   Delivery windows, returns, payment and support hours, set as a plain
-   two-column table of facts. This block replaced three invented customer
-   testimonials: five stars and a set of initials in a circle prove
-   nothing, where a published returns window is checkable.
+   Delivery, returns, payment and support facts in a two-column table.
    ========================================================================== */
 .spec-list {
   border-top: 1px solid var(--rule);
@@ -1221,9 +1056,7 @@ header {
   color: var(--on-invert-soft);
   padding-top: 72px;
 }
-/* On the dark ground the legs take their standing-on-navy values, so the same
-   SVG reads correctly on both surfaces. The crossbar needs no rule of its own
-   here: it carries the leg classes, so these two lines already cover it. */
+/* Lighter logo fills on the dark footer */
 .footer .logo-mark-a-left {
   fill: var(--accent-on-invert);
 }
@@ -1260,7 +1093,7 @@ header {
   margin-bottom: 24px;
 }
 
-/* Named links, not a row of glyph-filled circles. */
+/* Text links for social */
 .footer-social {
   display: flex;
   flex-wrap: wrap;
@@ -1376,8 +1209,7 @@ header {
   font-size: 1.16rem;
 }
 
-/* Mission & vision: two columns of prose divided by a rule, not two
-   rounded panels each carrying a tinted icon tile. */
+/* Mission & vision: two columns */
 .mv-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1425,16 +1257,10 @@ header {
   margin-bottom: 16px;
   font-size: 1.05rem;
 }
-/* The same trap as .contact-info-item above and .shop-grid below: :last-child
-   matches the last element among its siblings, not the last p. It is right
-   today only because the story column happens to end on a paragraph. Add a
-   pull quote, a byline or a "read more" after it and the final paragraph
-   quietly takes its 16px back.
-
-   :not(:has(~ p)) says what was meant: the paragraph with no paragraph after
-   it. Kept as a separate rule rather than folded into a selector list with the
-   line above, because CSS drops an entire list when any selector in it fails to
-   parse - the fuller note is on .shop-grid. */
+/* No bottom margin on the last paragraph. :not(:has(~ p)) targets the last
+   actual p (not just the last child); the :last-child line is a fallback for
+   older browsers. Kept as two rules so a browser that can't parse :has()
+   still applies the first. */
 .story-content p:last-child {
   margin-bottom: 0;
 }
@@ -1508,11 +1334,7 @@ header {
   margin-bottom: 30px;
 }
 
-/* The row spaces itself from what follows it. A grid item's margin adds to
-   its track rather than collapsing into it, so while the fields inside did
-   that spacing the gap below the row was really the leftover margin of
-   whichever field still had one - and it disappeared when the row stacked
-   into a single column. */
+/* The row owns the spacing below it, so it still works when it stacks */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1523,16 +1345,11 @@ header {
 .form-group {
   margin-bottom: 22px;
 }
-/* Inside a row the gap does this, in both the two-column and the stacked
-   arrangement. */
+/* Inside a row the grid gap handles spacing instead */
 .form-row .form-group {
   margin-bottom: 0;
 }
-/* The full-width submit button carries its own space above it (see below),
-   so the field it follows gives up its margin instead of adding to it.
-   Keyed to the button rather than to position: the last child of these
-   forms is the button, and the last div is not always a field - on the
-   login form it is the "remember me" row, which has margins of its own. */
+/* Drop the margin on the field right before a full-width submit button */
 .form-group:has(+ .btn-block) {
   margin-bottom: 0;
 }
@@ -1580,8 +1397,7 @@ header {
   min-height: 150px;
 }
 
-/* The contact form's submit button spans the form, so it needs a little
-   more breathing room above it than a form-group's own margin gives. */
+/* Extra space above the full-width submit button */
 .contact-form .btn-block,
 .auth-card .btn-block {
   margin-top: 28px;
@@ -1601,21 +1417,7 @@ header {
   margin-bottom: 30px;
 }
 
-/* A rule above every item except the first, expressed as "every item that has
-   an item before it" rather than as "all of them, minus the first one".
-
-   The subtraction form was .contact-info-item:first-of-type, and it did not
-   mean what it appeared to. :first-of-type matches the first div among its
-   siblings; the class plays no part in choosing which element it lands on. It
-   was right only because this card happens to open with an h2 and a p, neither
-   of which is a div. Wrap the items, or put a notice above them, and the first
-   item silently takes back a border and 18px of padding.
-
-   ~ rather than the :has() used on .shop-grid because the two shapes are not
-   the same. "All but the first" is a plain sibling combinator and needs nothing
-   modern; only "the last one" forces :has(), since CSS cannot look backwards.
-   This form also survives an element being inserted between two items, which
-   the adjacent + would not. */
+/* Rule above every item except the first ("any item preceded by an item") */
 .contact-info-item {
   padding-bottom: 18px;
 }
@@ -1641,8 +1443,7 @@ header {
   color: var(--accent-on-invert);
 }
 
-/* The label sits inside the item too, so it has to win back its own size
-   and colour from the rule above. */
+/* Reset the label's size and colour inside an item */
 .contact-info-item .contact-info-label {
   color: var(--accent-on-invert);
   font-size: 0.75rem;
@@ -1656,11 +1457,7 @@ header {
   background: var(--surface-alt);
 }
 
-/* The address layer sits underneath the frame. A loaded map paints over it
-   completely; a map that is blocked, offline or still on its way leaves the
-   address showing, because the embed renders transparent until it has
-   something to draw. The aspect-ratio holds the slot either way, so the
-   page never jumps when the map does arrive. */
+/* Address shows behind the map iframe, so it's visible if the map fails */
 .map-fallback {
   position: absolute;
   inset: 0;
@@ -1687,14 +1484,11 @@ header {
   width: 100%;
   height: 100%;
   border: 0;
-  /* The embed arrives in Google's own colours, which are louder than
-     anything else on the page; muting it slightly settles it into the
-     spread without hiding any detail. */
+  /* Mute the map's colours a little to fit the page */
   filter: saturate(0.72) contrast(0.96);
 }
 
-/* Kept outside the frame so it stays clickable even when the iframe is
-   present but blank and swallowing the pointer. */
+/* Sits outside the map frame so it stays clickable */
 .map-caption {
   margin-top: 14px;
   font-size: 0.75rem;
@@ -1799,11 +1593,7 @@ header {
   font-size: 0.98rem;
   color: var(--ink-soft);
 }
-/* The note is the only prose inside the card, so its link has to look like
-   one. Everything else in here is form furniture carrying rules of its own,
-   and the base `a { color: inherit; text-decoration: none }` would otherwise
-   hide the way across to the other auth page entirely. Same treatment the
-   legal pages give their links. */
+/* Underline the link in the footer note so it reads as a link */
 .auth-footer-note a {
   color: var(--accent);
   text-decoration: underline;
@@ -1890,27 +1680,9 @@ header {
   gap: 36px 28px;
   margin-bottom: 72px;
 }
-/* The 72px above is the gap between a grid and the next category heading, so
-   the last grid has to give it back or the section ends on that 72 plus its
-   own 76px of padding.
-
-   :last-of-type is not what it looks like. It matches the last div among its
-   siblings, not the last .shop-grid - the class plays no part in choosing
-   which element it lands on. It is correct today only because the last grid
-   happens to also be the last thing inside .container. Put anything after it
-   - a pagination row, a load-more, a footnote about stock - and it silently
-   stops matching, the 72px comes back, and nothing in the markup says why.
-
-   :not(:has(~ .shop-grid)) says what was actually meant: the grid with no
-   grid after it. That holds however the section is added to later.
-
-   Both are kept, and they cannot be folded into one selector list, because
-   CSS drops an entire list when any selector in it fails to parse - pairing
-   them would take the fallback down in exactly the browsers that need it.
-   :has() is Chrome 105, Safari 15.4 and Firefox 121, so it is available
-   earlier than the light-dark() this stylesheet leans on throughout, bar one
-   Firefox version. A browser with neither falls back to :last-of-type and is
-   no worse off than it is today. */
+/* Drop the bottom margin on the last grid. :not(:has(~ .shop-grid)) targets
+   the last actual .shop-grid; :last-of-type is the older-browser fallback.
+   Kept as two rules so browsers that can't parse :has() still get the first. */
 .shop-grid:last-of-type {
   margin-bottom: 0;
 }
@@ -1920,8 +1692,6 @@ header {
 
 /* ==========================================================================
    20. LEGAL PAGES (privacy, terms)
-   A single measured column of running prose. Legal copy is read, not
-   scanned, so it gets a text column and nothing else.
    ========================================================================== */
 .legal-content {
   max-width: 68ch;
@@ -1971,8 +1741,7 @@ header {
   padding-left: 22px;
   margin-bottom: 10px;
 }
-/* An en dash marks each item. A green tick would be a decoration
-   pretending to be a verification. */
+/* En dash as the list marker */
 .legal-content li::before {
   content: "–";
   position: absolute;
@@ -2055,14 +1824,9 @@ header {
 }
 
 /* ---- Mobile ( <= 720px ) -----------------------------------------------
-   The pill keeps the brand, the theme switch and the menu button; the
-   links drop into a second pill below it, drawn from the same glass. ---- */
+   Nav links drop into a panel below the pill. ---- */
 @media (max-width: 720px) {
-  /* The header shrinks here - 12px padding, a 58px pill, 12px again - so the
-     90px declared at the top of the file is 8px too tall from this width
-     down. The token feeds scroll-padding-top and the auth page's min-height,
-     so leaving it stale made every anchor jump overshoot by exactly that
-     much. Redeclared rather than recalculated, to keep it greppable. */
+  /* Header is shorter here, so update the token that anchor scrolling uses */
   :root {
     --header-height: 82px;
   } /* 12px + 58px pill + 12px */
@@ -2074,12 +1838,7 @@ header {
   header {
     padding: 12px 16px;
   }
-  /* 16px of header padding, plus the pill's 1px border, plus 7px inside it
-     puts the logo on 24px, which is where .container's padding-inline puts
-     every heading and paragraph on this breakpoint. Below 720px the container
-     spans the full viewport, so that sum is the alignment and it is exact
-     here - unlike the desktop rule above, which can only be exact on one
-     side of 1248px. */
+  /* 7px left padding + border lines the logo up with the 24px body gutter */
   .navbar-container {
     height: 58px;
     padding: 0 8px 0 7px;
@@ -2097,20 +1856,13 @@ header {
     padding-inline: 10px;
     border-radius: 26px;
     border: 1px solid transparent;
-    /* The bar is translucent because nothing has to be read through it.
-       The panel is not: four links over a photograph need an opaque
-       ground, so this one only borrows the pill's edge and shadow. */
+    /* Opaque panel so the links stay readable over the page */
     background: var(--surface-raised);
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    /* Collapsed to nothing is not the same as gone: a zero-height clipped
-       panel still hands its four links to the keyboard and the screen
-       reader, so a closed menu spends four tab stops on invisible targets.
-       visibility takes them out of the tree. It animates in discrete steps
-       that hold the old value for the whole duration, so naming it here
-       keeps the panel on screen while it collapses and hides it only once
-       that has finished - on the way open it applies at once. */
+    /* visibility hidden keeps the closed menu's links out of the tab order,
+       and its delayed transition lets the panel finish collapsing first */
     visibility: hidden;
     transition:
       max-height 0.3s ease,
@@ -2243,8 +1995,7 @@ header {
   }
 }
 
-/* The brand descriptor and the wordmark's second word are the first things
-   to go when the pill runs out of room. */
+/* Hide the "MARKET" descriptor once the pill gets tight */
 @media (max-width: 420px) {
   .navbar-brand-text small {
     display: none;
@@ -2254,14 +2005,7 @@ header {
   }
 }
 
-/* The theme switch is pinned 100px in from the pill's right edge to clear
-   the menu button, and the brand does not shrink - it is a wordmark, not a
-   sentence, so it cannot negotiate for that space and would simply cross
-   into the switch. Full wordmark plus mark is about 179px, and the room
-   left for it is the viewport less 154px of chrome, so the two collide
-   below roughly 333px. Under that the second word goes, which is what the
-   note above has always promised: "APEX" beside the mark still reads as the
-   brand, and a switch sitting on top of the "T" does not. */
+/* On the narrowest screens drop the second brand word so it clears the switch */
 @media (max-width: 340px) {
   .brand-word-market {
     display: none;
@@ -2270,8 +2014,6 @@ header {
 
 /* ==========================================================================
    22. REDUCED MOTION
-   Respect the user's OS-level preference to minimise animation. There is
-   very little left to suppress, which is itself the point.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   html {
